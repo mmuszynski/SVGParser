@@ -11,23 +11,27 @@ import XCTest
 
 class SVGParserTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    func testGrouping() {
+        let dataURL = Bundle(for: SVGParserTests.self).url(forResource: "6", withExtension: "svg")!
+        let data = try! Data(contentsOf: dataURL)
+        let parser = SVGXMLParser(data: data)
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        if !parser.parse() {
+            XCTFail("Parser failed")
+        }
+        XCTAssert(parser.svg.children.count == 7)
+        XCTAssert(parser.svg.children[0] is SVGPath)
+        XCTAssert(parser.svg.children[1] is SVGPath)
+        XCTAssert(parser.svg.children[2] is SVGPath)
+        XCTAssert(parser.svg.children[3] is SVGPath)
+        XCTAssert(parser.svg.children[4] is SVGGroup)
+        XCTAssert(parser.svg.children[5] is SVGGroup)
+        XCTAssert(parser.svg.children[6] is SVGGroup)
+        
+        for element in parser.svg.children {
+            if let path = element as? SVGPath {
+                path.parse()
+            }
         }
     }
 
