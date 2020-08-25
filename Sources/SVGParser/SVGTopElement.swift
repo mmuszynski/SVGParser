@@ -6,6 +6,7 @@
 //  Copyright © 2019 Mike Muszynski. All rights reserved.
 //
 
+import Foundation
 import CoreGraphics
 
 class SVGTopElement: SVGGroup {
