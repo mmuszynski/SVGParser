@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreGraphics
+import SwiftUI
 
 public struct SVGImage {
     var svg: SVGTopElement
@@ -20,13 +21,5 @@ public struct SVGImage {
         }
         
         self.svg = parser.svg
-    }
-}
-
-extension SVGImage {
-    static var testImage: SVGImage {
-        let dataURL = Bundle(for: SVGElement.self).url(forResource: "6", withExtension: "svg")!
-        let image = try! SVGImage(contentsOf: dataURL)
-        return image
     }
 }

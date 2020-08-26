@@ -10,12 +10,19 @@ import XCTest
 @testable import SVGParser
 
 class SVGParserTests: XCTestCase {
-
+    
+    func svgData(named name: String) throws -> Data? {
+        guard let dataURL = Bundle.module.url(forResource: name, withExtension: "svg") else {
+            return nil
+        }
+        
+        return try Data(contentsOf: dataURL)
+    }
+    
     func testGrouping() {
-        let dataURL = Bundle(for: SVGParserTests.self).url(forResource: "6", withExtension: "svg")!
-        let data = try! Data(contentsOf: dataURL)
+        let data = try! self.svgData(named: "6")!
         let parser = SVGXMLParser(data: data)
-
+        
         if !parser.parse() {
             XCTFail("Parser failed")
         }
@@ -30,9 +37,29 @@ class SVGParserTests: XCTestCase {
         
         for element in parser.svg.children {
             if let path = element as? SVGPath {
-                path.parse()
+                XCTAssertNotNil(path.path)
             }
         }
     }
-
+    
+    func testClub() {
+        let data = try! self.svgData(named: "Club")!
+        let parser = SVGXMLParser(data: data)
+        
+        XCTAssertTrue(parser.parse())
+        parser.svg.path(in: CGRect(origin: .zero, size: CGSize(width: 300, height: 300)))
+    }
+    
+    func testTransformStrings() {
+        let translate = SVGElement.Transform.translate(CGSize(width: 0, height: 512))
+        let scale = SVGElement.Transform.scale(CGSize(width: 0.1, height: -0.1))
+        
+        XCTAssertEqual(translate, translate)
+        XCTAssertEqual("translate(0.000000,512.000000)", translate)
+        XCTAssertEqual("scale(0.100000,-0.100000)", scale)
+        
+        let array = Array<SVGElement.Transform>(string: "translate(0.000000,512.000000) scale(0.100000,-0.100000)")
+        XCTAssertEqual(array, [translate,scale])
+    }
+    
 }

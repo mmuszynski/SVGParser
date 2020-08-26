@@ -10,7 +10,10 @@ import Foundation
 import CoreGraphics
 
 class SVGCircle: SVGElement {
-    var path: CGPath?
+    var _path: CGPath {
+        let rect = CGRect(x: center.x - radius, y: center.y - radius, width: 2 * radius, height: 2 * radius)
+        return CGPath(ellipseIn: rect, transform: nil)
+    }
     var center: CGPoint = .zero
     var radius: CGFloat = 0
     
@@ -33,12 +36,5 @@ class SVGCircle: SVGElement {
         }
         
         super.updateAttributes(with: attributes)
-    }
-    
-    override func parse() {
-        let rect = CGRect(x: center.x - radius, y: center.y - radius, width: 2 * radius, height: 2 * radius)
-        self.path = CGPath(ellipseIn: rect, transform: nil)
-        
-        super.parse()
     }
 }

@@ -35,12 +35,10 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
             newPath.updateAttributes(with: attributeDict)
         case "g":
             let newGroup = SVGGroup()
-            if let group = currentElement as? SVGGroup {
-                group.append(newGroup)
-                newGroup.parent = group
-                currentElement = newGroup
-            }
+            currentElement?.append(newGroup)
+            newGroup.parent = currentElement
             newGroup.updateAttributes(with: attributeDict)
+            currentElement = newGroup
         case "circle":
             let newPath = SVGCircle(attributes: attributeDict)
             if let currentGroup = currentElement as? SVGGroup {
@@ -56,6 +54,8 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        currentElement = currentElement?.parent
+        if !(currentElement is SVGTopElement) {
+            currentElement = currentElement?.parent
+        }
     }
 }

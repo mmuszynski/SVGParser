@@ -23,26 +23,8 @@ extension CGPoint {
 }
 
 
-class SVGPath: SVGElement, SVGDrawable {
+class SVGPath: SVGElement {
     private var pathString: String = ""
-    
-    ///Draws the parsed path in a rectangle supplied by the drawing system
-    func path(in rect: CGRect) -> CGPath {
-        if _path == nil {
-            self.parse()
-        }
-        
-        ///I think I want to scale and translate the view box to the rectangle supplied by the drawing system
-        ///Let's see what happens if I do that
-        if let box = viewBox {
-            var transform = CGAffineTransform(scaleX: rect.width / box.width, y: rect.height / box.height)
-            transform = transform.translatedBy(x: rect.minX - box.minX, y: rect.minY - box.minY)
-            return self._path!.copy(using: &transform)!
-        }
-        
-        return self._path!
-    }
-    private var _path: CGPath?
     
     override func updateAttributes(with attributes: [String : String]) {
         if let pathString = attributes["d"] {
@@ -144,7 +126,7 @@ class SVGPath: SVGElement, SVGDrawable {
         return instructions
     }
     
-    override func parse() {
+    override var path: CGPath? {
         let path = CGMutablePath()
         path.move(to: .zero)
 
@@ -350,8 +332,6 @@ class SVGPath: SVGElement, SVGDrawable {
             }
         }
         
-        self._path = path
-
-        super.parse()
+        return path
     }
 }

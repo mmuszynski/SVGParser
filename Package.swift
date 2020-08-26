@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SVGParser",
-    platforms: [.macOS(.v10_14), .iOS(.v13)],
+    platforms: [.macOS(.v10_15), .iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -22,13 +22,16 @@ let package = Package(
         .target(
             name: "SVGParser",
             dependencies: [],
-            exclude: ["Info.plist"]),
+            exclude: ["Info.plist"],
+            resources: [.process("Bruins.svg"),
+                        .process("Club.svg")]),
         .testTarget(
             name: "SVGParserTests",
             dependencies: ["SVGParser"],
             exclude: ["Info.plist"],
             resources: [.process("6.svg"),
                         .process("6groups.svg"),
+                        .process("Club.svg"),
                         .process("17.svg")])
     ]
 )

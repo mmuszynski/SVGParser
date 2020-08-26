@@ -22,6 +22,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>SVGParser_SVGParser</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>SVGParser_SVGParserTests</key>
 		<dict>
 			<key>primary</key>

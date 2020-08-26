@@ -12,49 +12,52 @@ extension SVGElement: Identifiable {
     
 }
 
-extension SVGPath {
-    func renderPath(with instructions: [SVGPaintingInstruction] = []) -> some View {
+extension SVGElement {
+    func rendered(with instructions: [SVGElement.PaintingInstruction] = [], transforms: [SVGElement.Transform] = []) -> some View {
         self.paintingInstructions.append(contentsOf: instructions)
-        return SVGPathShape(drawable: self).rasterized()
-    }
-}
-
-extension SVGGroup {
-    func renderGroup() -> some View {
-        ZStack {
-            ForEach(children) { child in
-                child.rasterized(with: self.paintingInstructions)
+        self.transformInstructions.append(contentsOf: transforms)
+        
+        return ZStack {
+            SVGShape(drawable: self).rasterized()
+            ForEach(self.children) { child in
+                AnyView(child.rendered(with: self.paintingInstructions, transforms: self.transformInstructions))
             }
         }
     }
 }
 
-extension SVGElement {
-    func rasterized(with instructions: [SVGPaintingInstruction] = []) -> some View {
-        if let path = self as? SVGPath {
-            return AnyView(path.renderPath(with: instructions))
-        } else if let group = self as? SVGGroup {
-            return AnyView(group.renderGroup())
-        }
-        return AnyView(EmptyView())
-    }
-}
+//extension SVGPath {
+//    func renderPath(with instructions: [SVGElement.PaintingInstruction] = []) -> some View {
+//        self.paintingInstructions.append(contentsOf: instructions)
+//        return SVGShape(drawable: self).rasterized()
+//    }
+//}
 
-public struct SVGImageView: View {
-    var image: SVGImage
-    
-    public init(image: SVGImage) {
-        self.image = image
-    }
-    
-    public static var testView: SVGImageView {
-        return SVGImageView(image: .testImage)
-    }
-    
-    public var body: some View {
-        return image.svg.rasterized()
-    }
-}
+//extension SVGGroup {
+//    func renderGroup() -> some View {
+//        ZStack {
+//            ForEach(children) { child in
+//                child.rasterized(with: self.paintingInstructions)
+//            }
+//        }
+//    }
+//}
+
+//extension SVGElement {
+//    func rasterized() -> some View {
+//        SVGShape(drawable: self).rasterized()
+//    }
+//    
+////    func rasterized(with instructions: [SVGElement.PaintingInstruction] = []) -> some View {
+////        if let path = self as? SVGPath {
+////            return AnyView(path.renderPath(with: instructions))
+////        } else if let group = self as? SVGGroup {
+////            return AnyView(group.renderGroup())
+////        }
+////        return AnyView(EmptyView())
+////    }
+//}
+
 
 extension SVGElement {
     class var bruinsLogo: SVGGroup {
@@ -96,15 +99,3 @@ extension SVGElement {
     }
 }
 
-//struct SVGElementRenderer_Preview: PreviewProvider {
-//    static let logos = SVGElement.teamLogos
-//    
-//    static var previews: some View {
-//        Group {
-//            ForEach(0..<SVGElementRenderer_Preview.logos.count) { id in
-//                SVGElementView(element: SVGElementRenderer_Preview.logos[id])
-//                    .position(x: 0, y: 0)
-//            }
-//        }
-//    }
-//}

@@ -8,10 +8,12 @@
 
 import CoreGraphics
 
-class SVGElement {
+class SVGElement: SVGDrawable {
+    var path: CGPath? { nil }
     var parent: SVGElement?
     var children: [SVGElement] = []
-    var paintingInstructions: [SVGPaintingInstruction] = []
+    var paintingInstructions: [SVGElement.PaintingInstruction] = []
+    var transformInstructions: [SVGElement.Transform] = []
     
     /// The View Box for the top level parent
     var viewBox: CGRect? {
@@ -27,11 +29,6 @@ class SVGElement {
         self.children.append(child)
     }
     
-    /// You must call `super.parse()` in your subclass in order to make sure that child elements are parsed.
-    func parse() {
-        children.forEach { $0.parse() }
-    }
-    
     /// Updates painting instructions and other attributes. Calling `super` will update painting instructions
     /// - Parameter attributeDict: The attributes returned by the XML
     func updateAttributes(with attributes: [String: String]) {
@@ -41,6 +38,12 @@ class SVGElement {
 
         if let strokeColor = attributes["stroke"] {
             paintingInstructions.append(.stroke(strokeColor))
+        }
+        
+        if let transformString = attributes["transform"] {
+            let transforms = Array<SVGElement.Transform>(string: transformString)
+            print(transformString)
+            print(transforms)
         }
     }
 }

@@ -8,7 +8,9 @@
 
 import Foundation
 
-enum SVGPaintingInstruction: Hashable {
-    case fill(_ color: String)
-    case stroke(_ color: String)
+extension SVGElement {
+    enum PaintingInstruction: Hashable {
+        case fill(_ color: String)
+        case stroke(_ color: String)
+    }
 }
