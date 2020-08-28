@@ -126,7 +126,10 @@ class SVGPath: SVGElement {
         return instructions
     }
     
-    override var path: CGPath? {
+    //The parsed path
+    private var _path: CGPath?
+    
+    private func parsePath() {
         let path = CGMutablePath()
         path.move(to: .zero)
 
@@ -330,6 +333,15 @@ class SVGPath: SVGElement {
                 path.addRelativeArc(center: .zero, radius: 1, startAngle: startAngle, delta: angleDelta, transform: trInv)
                 completedInstructions.append(.arc(to: endPoint, radii: radii, largeArcFlag: largeArcFlag, sweepFlag: sweepFlag, xAxisRotation: xAxisRotation, relative: false))
             }
+        }
+        
+        self._path = path
+    }
+    
+    override var path: CGPath? {
+        guard let path = self._path else {
+            self.parsePath()
+            return self.path
         }
         
         return path
