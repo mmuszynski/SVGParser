@@ -10,11 +10,24 @@ import Foundation
 extension SVGElement {
     enum Transform {
         case matrix(_ transform: CGAffineTransform)
-        case translate(_ size: CGSize)
-        case scale(_ size: CGSize)
+        case translate(_ x: CGFloat, _ y: CGFloat)
+        case scale(_ x: CGFloat, _ y: CGFloat)
         case rotate(_ degrees: CGFloat, around: CGPoint?)
         case skewX(_ degrees: CGFloat)
         case skewY(_ degrees: CGFloat)
+    
+        var transform: CGAffineTransform {
+            switch self {
+            case .matrix(let matrix):
+                return matrix
+            case .translate(let x, let y):
+                return CGAffineTransform(translationX: x, y: y)
+            case .scale(let x, let y):
+                return CGAffineTransform(scaleX: x, y: y)
+            default:
+                return .identity
+            }
+        }
     }
 }
 
@@ -37,10 +50,10 @@ extension SVGElement.Transform: Equatable {
         switch lhs {
         case .matrix(let transform):
             if case let .matrix(rhsTransform) = rhs { return transform == rhsTransform }
-        case .translate(let lhsAmount):
-            if case let .translate(rhsAmount) = rhs { return lhsAmount == rhsAmount }
-        case .scale(let lhsAmount):
-            if case let .scale(rhsAmount) = rhs { return lhsAmount == rhsAmount }
+        case .translate(let x, let y):
+            if case let .translate(rhsX, rhsY) = rhs { return x == rhsX && y == rhsY }
+        case .scale(let x, let y):
+            if case let .scale(rhsX, rhsY) = rhs { return x == rhsX && y == rhsY }
         default:
             fatalError()
         //        case .scale(_):
@@ -101,13 +114,13 @@ extension Array where Element == SVGElement.Transform {
                 if scannedCoordinates.count == 1 {
                     scannedCoordinates[1] = 0
                 }
-                elements.append(.translate(CGSize(width: scannedCoordinates[0], height: scannedCoordinates[1])))
+                elements.append(.translate(scannedCoordinates[0], scannedCoordinates[1]))
             case "scale":
                 guard scannedCoordinates.count > 0 else { fatalError() }
                 if scannedCoordinates.count == 1 {
                     scannedCoordinates[1] = scannedCoordinates[0]
                 }
-                elements.append(.scale(CGSize(width: scannedCoordinates[0], height: scannedCoordinates[1])))
+                elements.append(.scale(scannedCoordinates[0], scannedCoordinates[1]))
             case "rotate":
                 guard scannedCoordinates.count > 0 else { fatalError() }
                 if scannedCoordinates.count == 3 {

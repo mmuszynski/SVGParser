@@ -15,10 +15,11 @@ class SVGTopElement: SVGGroup {
         return _viewBox
     }
     
-    init(attributes attributeDict: [String: String] = [:]) {
-        super.init()
-        self.updateAttributes(with: attributeDict)
-    }
+    /// The width of the SVG element, defined at the top level
+    var width: CGFloat?
+    
+    /// The height of the SVG element, defined at the top level
+    var height: CGFloat?
     
     override func updateAttributes(with attributes: [String: String]) {
         if let viewBox = attributes["viewBox"] {

@@ -7,6 +7,7 @@
 //
 
 import CoreGraphics
+import Foundation
 
 class SVGElement: SVGDrawable {
     var path: CGPath? { nil }
@@ -14,6 +15,8 @@ class SVGElement: SVGDrawable {
     var children: [SVGElement] = []
     var paintingInstructions: [SVGElement.PaintingInstruction] = []
     var transformInstructions: [SVGElement.Transform] = []
+    
+    var preserveAspectRatio: PreserveAspectRatio = .default //PreserveAspectRatio(align: .none, meetOrSlice: .meet)
     
     /// The View Box for the top level parent
     var viewBox: CGRect? {
@@ -29,21 +32,125 @@ class SVGElement: SVGDrawable {
         self.children.append(child)
     }
     
-    /// Updates painting instructions and other attributes. Calling `super` will update painting instructions
+    /// Updates painting instructions and other attributes.
     /// - Parameter attributeDict: The attributes returned by the XML
     func updateAttributes(with attributes: [String: String]) {
         if let fillColor = attributes["fill"] {
             paintingInstructions.append(.fill(fillColor))
         }
-
+        
         if let strokeColor = attributes["stroke"] {
-            paintingInstructions.append(.stroke(strokeColor))
+            let strokeWidth = CGFloat(truncating: NumberFormatter().number(from: attributes["stroke-width"] ?? "") ?? 1)
+            paintingInstructions.append(.stroke(strokeColor, strokeWidth: strokeWidth))
         }
         
         if let transformString = attributes["transform"] {
             let transforms = Array<SVGElement.Transform>(string: transformString)
-            print(transformString)
-            print(transforms)
+            self.transformInstructions = transforms
         }
+    }
+    
+    func transformForViewBox(to viewport: CGRect) -> [SVGElement.Transform] {
+        //Let vb-x, vb-y, vb-width, vb-height be the min-x, min-y, width and height values of the viewBox attribute respectively.
+        
+        let vb_x = viewBox?.minX ?? viewport.minX
+        let vb_y = viewBox?.minY ?? viewport.minY
+        let vb_width = viewBox?.width ?? viewport.width
+        let vb_height = viewBox?.height ?? viewport.height
+        
+        //Let e-x, e-y, e-width, e-height be the position and size of the element respectively.
+        guard let path = path else { return [] }
+        let boundingBox = path.boundingBoxOfPath
+        let e_x = viewport.minX
+        let e_y = viewport.minY
+        let e_width = viewport.width
+        let e_height = viewport.height
+        
+        //Let align be the align value of preserveAspectRatio, or 'xMidYMid' if preserveAspectRatio is not defined.
+        //Let meetOrSlice be the meetOrSlice value of preserveAspectRatio, or 'meet' if preserveAspectRatio is not defined or if meetOrSlice is missing from this value.
+        let align = self.preserveAspectRatio.align
+        let meetOrSlice = self.preserveAspectRatio.meetOrSlice
+        
+        //Initialize scale-x to e-width/vb-width.
+        //Initialize scale-y to e-height/vb-height.
+        
+        var scale_x = e_width / vb_width
+        var scale_y = e_height / vb_height
+        
+        //If align is not 'none' and meetOrSlice is 'meet', set the larger of scale-x and scale-y to the smaller.
+        //Otherwise, if align is not 'none' and meetOrSlice is 'slice', set the smaller of scale-x and scale-y to the larger.
+
+        if case .none = align {
+        } else {
+            let resize: CGFloat
+            if meetOrSlice == .meet {
+                resize = min(scale_x, scale_y)
+            } else {
+                resize = max(scale_x, scale_y)
+            }
+            scale_x = resize
+            scale_y = resize
+        }
+        
+        //Initialize translate-x to e-x - (vb-x * scale-x).
+        //Initialize translate-y to e-y - (vb-y * scale-y)
+        
+        var translate_x = e_x - (vb_x * scale_x)
+        var translate_y = e_y - (vb_y * scale_y)
+                
+        //If align contains 'xMid', add (e-width - vb-width * scale-x) / 2 to translate-x.
+        //If align contains 'xMax', add (e-width - vb-width * scale-x) to translate-x.
+        if case .some(.xMid, _) = align {
+            translate_x += (e_width - vb_width * scale_x) / 2
+        } else if case .some(.xMax, _) = align {
+            translate_x += e_width - vb_width * scale_x
+        }
+        
+        //If align contains 'yMid', add (e-height - vb-height * scale-y) / 2 to translate-y.
+        //If align contains 'yMax', add (e-height - vb-height * scale-y) to translate-y.
+        if case .some(_, .yMid) = align {
+            translate_y += (e_height - vb_height * scale_y) / 2
+        } else if case .some(_, .yMax) = align {
+            translate_y += (e_height - vb_height * scale_y)
+        }
+        
+        return [.translate(translate_x, translate_y), .scale(scale_x, scale_y)]
+        
+        //guard size.height > 0 && size.width > 0, let vb = viewBox else { return .identity }
+        //
+        //let vbx = vb.minX
+        //let vby = vb.minY
+        //let vbwidth = vb.width
+        //let vbheight = vb.height
+        //
+        //let ex = 0
+        //let ey = 0
+        //let eheight = size.height
+        //let ewidth = size.width
+        //
+        //let scalex = ewidth / vbwidth
+        //let scaley = eheight / vbheight
+        //
+        //return CGAffineTransform(scaleX: scalex, y: scaley)
+    }
+    
+    
+}
+
+extension SVGElement: CustomDebugStringConvertible {
+    var debugDescription: String {
+        return description(level: 0)
+    }
+    
+    func description(level: Int) -> String {
+        var string = ""
+        string += Array<String>(repeating: "----", count: level).reduce("", +)
+        string += "> "
+        string += String(describing: type(of: self)) + ": <\(String(format: "%p", unsafeBitCast(self, to: Int.self)))>"
+        
+        for child in children {
+            string += "\r" + child.description(level: level + 1)
+        }
+        return string
     }
 }

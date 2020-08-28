@@ -7,20 +7,21 @@
 //
 
 import XCTest
+import SwiftUI
 @testable import SVGParser
 
 class SVGParserTests: XCTestCase {
     
-    func svgData(named name: String) throws -> Data? {
+    func svgData(named name: String) throws -> Data {
         guard let dataURL = Bundle.module.url(forResource: name, withExtension: "svg") else {
-            return nil
+            fatalError("Could not get data for test")
         }
         
         return try Data(contentsOf: dataURL)
     }
     
     func testGrouping() {
-        let data = try! self.svgData(named: "6")!
+        let data = try! self.svgData(named: "6")
         let parser = SVGXMLParser(data: data)
         
         if !parser.parse() {
@@ -42,17 +43,9 @@ class SVGParserTests: XCTestCase {
         }
     }
     
-    func testClub() {
-        let data = try! self.svgData(named: "Club")!
-        let parser = SVGXMLParser(data: data)
-        
-        XCTAssertTrue(parser.parse())
-        parser.svg.path(in: CGRect(origin: .zero, size: CGSize(width: 300, height: 300)))
-    }
-    
     func testTransformStrings() {
-        let translate = SVGElement.Transform.translate(CGSize(width: 0, height: 512))
-        let scale = SVGElement.Transform.scale(CGSize(width: 0.1, height: -0.1))
+        let translate = SVGElement.Transform.translate(0, 512)
+        let scale = SVGElement.Transform.scale(0.1, -0.1)
         
         XCTAssertEqual(translate, translate)
         XCTAssertEqual("translate(0.000000,512.000000)", translate)
@@ -60,6 +53,35 @@ class SVGParserTests: XCTestCase {
         
         let array = Array<SVGElement.Transform>(string: "translate(0.000000,512.000000) scale(0.100000,-0.100000)")
         XCTAssertEqual(array, [translate,scale])
+    }
+    
+    func testTransforms() {
+        let translate = SVGElement.Transform.translate(0, 512)
+        let scale = SVGElement.Transform.scale(0.1, -0.1)
+
+        print(translate.transform)
+        print(scale.transform)
+        print(scale.transform.concatenating(translate.transform))
+        print(translate.transform.concatenating(scale.transform))
+    }
+    
+    func testBeaconExample() {
+        let data = try! svgData(named: "beacon")
+        let parser = SVGXMLParser(data: data)
+        XCTAssertTrue(parser.parse())
+    }
+    
+    func testHexColor() {
+        let color = Color(cssString: "red")
+        XCTAssertEqual(color, Color(cssString: "#FF0000"))
+    }
+    
+    func testDescription() {
+        let data = try! svgData(named: "6")
+        let parser = SVGXMLParser(data: data)
+        XCTAssertTrue(parser.parse())
+        XCTAssertNotNil(parser.svg)
+        print(parser.svg.debugDescription)
     }
     
 }

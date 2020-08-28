@@ -23,15 +23,11 @@ let package = Package(
             name: "SVGParser",
             dependencies: [],
             exclude: ["Info.plist"],
-            resources: [.process("Bruins.svg"),
-                        .process("Club.svg")]),
+            resources: [.process("Example Images")]),
         .testTarget(
             name: "SVGParserTests",
             dependencies: ["SVGParser"],
             exclude: ["Info.plist"],
-            resources: [.process("6.svg"),
-                        .process("6groups.svg"),
-                        .process("Club.svg"),
-                        .process("17.svg")])
+            resources: [.process("Example Images")])
     ]
 )

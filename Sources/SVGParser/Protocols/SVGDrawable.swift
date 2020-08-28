@@ -15,6 +15,7 @@ protocol SVGDrawable {
     
     var paintingInstructions: [SVGElement.PaintingInstruction] { get }
     var transformInstructions: [SVGElement.Transform] { get }
+    var parent: SVGElement? { get }
     var children: [SVGElement] { get }
     var viewBox: CGRect? { get }
 }
@@ -30,13 +31,13 @@ extension SVGDrawable {
 //            }
 //        }
         
-        ///I think I want to scale and translate the view box to the rectangle supplied by the drawing system
-        ///Let's see what happens if I do that
-        if let box = viewBox {
-            var transform = CGAffineTransform(scaleX: rect.width / box.width, y: rect.height / box.height)
-            transform = transform.translatedBy(x: rect.minX - box.minX, y: rect.minY - box.minY)
-            return thePath.copy(using: &transform)!
-        }
+//        ///I think I want to scale and translate the view box to the rectangle supplied by the drawing system
+//        ///Let's see what happens if I do that
+//        if let box = viewBox {
+//            var transform = CGAffineTransform(scaleX: rect.width / box.width, y: rect.height / box.height)
+//            transform = transform.translatedBy(x: rect.minX - box.minX, y: rect.minY - box.minY)
+//            return thePath.copy(using: &transform)!
+//        }
         
         return thePath
     }

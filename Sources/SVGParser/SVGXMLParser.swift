@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 
 final class SVGXMLParser: XMLParser, XMLParserDelegate {
-    public var svg = SVGTopElement(attributes: [:])
+    public var svg = SVGTopElement()
     private var currentElement: SVGElement?
     
     override func parse() -> Bool {
@@ -21,7 +21,7 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         switch elementName {
         case "svg":
-            svg = SVGTopElement(attributes: attributeDict)
+            svg = SVGTopElement()
             currentElement = svg
             currentElement?.updateAttributes(with: attributeDict)
         case "path":
@@ -40,7 +40,7 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
             newGroup.updateAttributes(with: attributeDict)
             currentElement = newGroup
         case "circle":
-            let newPath = SVGCircle(attributes: attributeDict)
+            let newPath = SVGCircle()
             if let currentGroup = currentElement as? SVGGroup {
                 newPath.parent = currentGroup
                 currentGroup.append(newPath)
@@ -48,6 +48,15 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
             }
             
             newPath.updateAttributes(with: attributeDict)
+        case "rect":
+            let rect = SVGRectangle()
+            if let currentGroup = currentElement as? SVGGroup {
+                rect.parent = currentGroup
+                currentGroup.append(rect)
+                currentElement = rect
+            }
+            
+            rect.updateAttributes(with: attributeDict)
         default:
             break
         }

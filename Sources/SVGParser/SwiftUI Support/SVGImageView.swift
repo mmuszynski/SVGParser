@@ -27,14 +27,24 @@ extension SVGImage {
     }
 }
 
+extension URL {
+    static func teamLogo(id: Int) -> URL {
+        URL(string: "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/\(id).svg")!
+    }
+}
+
 struct SVGImagePreviews: PreviewProvider {
     static var previews: some View {
         Group {
             SVGImageView(image: .svg(named: "Bruins"))
                 .previewLayout(.sizeThatFits)
-//            SVGImageView(image: .svg(named: "Club"))
-//                .previewLayout(.fixed(width: 1000, height: 1000))
-//                .padding()
+            
+            SVGImageView(image: try! SVGImage(contentsOf: .teamLogo(id: 14)))
+                .previewLayout(.sizeThatFits)
+            
+            SVGImageView(image: .svg(named: "Club"))
+                .previewLayout(.sizeThatFits)
+                .padding()
         }
     }
 }

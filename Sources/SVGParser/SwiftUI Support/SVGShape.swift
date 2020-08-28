@@ -15,14 +15,18 @@ struct SVGShape: Shape {
         return Path(drawable.path(in: rect))
     }
     
-    func rasterized() -> some View {
+    func rasterized(with transform: CGAffineTransform = .identity) -> some View {
         ZStack {
             ForEach(drawable.paintingInstructions, id: \.self) { instruction in
                 switch instruction {
-                case .stroke(let colorString):
-                    self.stroke(Color(hex: colorString))
+                case .stroke(let colorString, let strokeWidth):
+                    self
+                        .transform(transform)
+                        .stroke(Color(cssString: colorString), lineWidth: strokeWidth)
                 case .fill(let colorString):
-                    self.fill(Color(hex: colorString))
+                    self
+                        .transform(transform)
+                        .fill(Color(cssString: colorString))
                 }
             }
         }
@@ -51,6 +55,17 @@ extension SVGPath {
         let _ = parser.parse()
         return parser.svg.children[6] as! SVGGroup
     }
+    
+    class var circle: SVGCircle {
+        guard let dataURL = Bundle.module.url(forResource: "circle100", withExtension: "svg") else {
+            fatalError()
+        }
+        
+        let data = try! Data(contentsOf: dataURL)
+        let parser = SVGXMLParser(data: data)
+        let _ = parser.parse()
+        return parser.svg.children[0] as! SVGCircle
+    }
 }
 
 struct SVGShape_Previews: PreviewProvider {
@@ -59,7 +74,7 @@ struct SVGShape_Previews: PreviewProvider {
             SVGShape(drawable: SVGPath.testPath)
                 .rasterized()
                 .previewLayout(.sizeThatFits)
-            SVGShape(drawable: SVGPath.testGroup)
+            SVGShape(drawable: SVGPath.circle)
                 .rasterized()
                 .previewLayout(.sizeThatFits)
         }

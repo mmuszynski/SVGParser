@@ -11,6 +11,6 @@ import Foundation
 extension SVGElement {
     enum PaintingInstruction: Hashable {
         case fill(_ color: String)
-        case stroke(_ color: String)
+        case stroke(_ color: String, strokeWidth: CGFloat)
     }
 }
