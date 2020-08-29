@@ -25,7 +25,7 @@ extension SVGElement {
             
             var allTransforms = self.transformInstructions
             let viewBoxTransforms = transformForViewBox(to: rect)
-            allTransforms = viewBoxTransforms.reversed()
+            allTransforms = (viewBoxTransforms + allTransforms).reversed()
             
             for instruction in allTransforms {
                 final = final.concatenating(instruction.transform)
@@ -53,6 +53,7 @@ extension SVGElement {
 
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
-        SVGImageView(image: .svg(named: "circle100"))
+        SVGImageView(image: .svg(named: "Club"))
+            .previewLayout(.fixed(width: 300, height: 300))
     }
 }
