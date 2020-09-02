@@ -15,7 +15,9 @@ public struct SVGImageView: View {
     }
     
     public var body: some View {
-        image.svg.rendered()
+        image
+            .svg
+            .rendered()
     }
 }
 

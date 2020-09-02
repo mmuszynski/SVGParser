@@ -9,12 +9,28 @@
 import CoreGraphics
 import Foundation
 
-class SVGElement: SVGDrawable {
+class SVGElement {
     var path: CGPath? { nil }
+    func path(in rect: CGRect) -> CGPath {
+        let thePath = path ?? CGMutablePath()
+        return thePath
+    }
     var parent: SVGElement?
     var children: [SVGElement] = []
     var paintingInstructions: [SVGElement.PaintingInstruction] = []
     var transformInstructions: [SVGElement.Transform] = []
+    
+    var allTransformInstructions: [SVGElement.Transform] {
+        return (parent?.transformInstructions ?? []) + self.transformInstructions
+    }
+    
+    var allPaintingInstructions: [SVGElement.PaintingInstruction] {
+        let instructions = (parent?.paintingInstructions ?? []) + self.paintingInstructions
+        if self.children.isEmpty && instructions.isEmpty {
+            return [.defaultFillInstruction]
+        }
+        return instructions
+    }
     
     var preserveAspectRatio: PreserveAspectRatio = .default //PreserveAspectRatio(align: .none, meetOrSlice: .meet)
     
@@ -50,6 +66,44 @@ class SVGElement: SVGDrawable {
         }
     }
     
+    func scale(for rect: CGRect) -> CGFloat {
+        let vb_x = viewBox?.minX ?? rect.minX
+        let vb_y = viewBox?.minY ?? rect.minY
+        let vb_width = viewBox?.width ?? rect.width
+        let vb_height = viewBox?.height ?? rect.height
+        
+        //Let e-x, e-y, e-width, e-height be the position and size of the element respectively.
+        let e_x = rect.minX
+        let e_y = rect.minY
+        let e_width = rect.width
+        let e_height = rect.height
+        
+        //Let align be the align value of preserveAspectRatio, or 'xMidYMid' if preserveAspectRatio is not defined.
+        //Let meetOrSlice be the meetOrSlice value of preserveAspectRatio, or 'meet' if preserveAspectRatio is not defined or if meetOrSlice is missing from this value.
+        let align = self.preserveAspectRatio.align
+        let meetOrSlice = self.preserveAspectRatio.meetOrSlice
+        
+        //Initialize scale-x to e-width/vb-width.
+        //Initialize scale-y to e-height/vb-height.
+        
+        var scale_x = e_width / vb_width
+        var scale_y = e_height / vb_height
+        
+        if case .none = align {
+        } else {
+            let resize: CGFloat
+            if meetOrSlice == .meet {
+                resize = min(scale_x, scale_y)
+            } else {
+                resize = max(scale_x, scale_y)
+            }
+            scale_x = resize
+            scale_y = resize
+        }
+        
+        return scale_x
+    }
+    
     func transformForViewBox(to viewport: CGRect) -> [SVGElement.Transform] {
         //Let vb-x, vb-y, vb-width, vb-height be the min-x, min-y, width and height values of the viewBox attribute respectively.
         
@@ -59,8 +113,6 @@ class SVGElement: SVGDrawable {
         let vb_height = viewBox?.height ?? viewport.height
         
         //Let e-x, e-y, e-width, e-height be the position and size of the element respectively.
-        guard let path = path else { return [] }
-        let boundingBox = path.boundingBoxOfPath
         let e_x = viewport.minX
         let e_y = viewport.minY
         let e_width = viewport.width
@@ -115,23 +167,6 @@ class SVGElement: SVGDrawable {
         }
         
         return [.translate(translate_x, translate_y), .scale(scale_x, scale_y)]
-        
-        //guard size.height > 0 && size.width > 0, let vb = viewBox else { return .identity }
-        //
-        //let vbx = vb.minX
-        //let vby = vb.minY
-        //let vbwidth = vb.width
-        //let vbheight = vb.height
-        //
-        //let ex = 0
-        //let ey = 0
-        //let eheight = size.height
-        //let ewidth = size.width
-        //
-        //let scalex = ewidth / vbwidth
-        //let scaley = eheight / vbheight
-        //
-        //return CGAffineTransform(scaleX: scalex, y: scaley)
     }
     
     

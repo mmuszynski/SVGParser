@@ -9,27 +9,29 @@
 import SwiftUI
 
 struct SVGShape: Shape {
-    var drawable: SVGDrawable
-    
-    func path(in rect: CGRect) -> Path {
-        return Path(drawable.path(in: rect))
+    var element: SVGElement
+    var paintingInstructions: [SVGElement.PaintingInstruction] {
+        return element.allPaintingInstructions
     }
     
-    func rasterized(with transform: CGAffineTransform = .identity) -> some View {
-        ZStack {
-            ForEach(drawable.paintingInstructions, id: \.self) { instruction in
-                switch instruction {
-                case .stroke(let colorString, let strokeWidth):
-                    self
-                        .transform(transform)
-                        .stroke(Color(cssString: colorString), lineWidth: strokeWidth)
-                case .fill(let colorString):
-                    self
-                        .transform(transform)
-                        .fill(Color(cssString: colorString))
-                }
+    func path(in rect: CGRect) -> Path {
+        let path = Path(element.path(in: rect))
+        
+        func finalTransform(in rect: CGRect) -> CGAffineTransform {
+            var final = CGAffineTransform.identity
+            
+            var allTransforms = element.allTransformInstructions
+            let viewBoxTransforms = element.transformForViewBox(to: rect)
+            allTransforms = (viewBoxTransforms + allTransforms).reversed()
+            
+            for instruction in allTransforms {
+                final = final.concatenating(instruction.transform)
             }
+            
+            return final
         }
+        
+        return path.applying(finalTransform(in: rect))
     }
 }
 
@@ -71,11 +73,9 @@ extension SVGPath {
 struct SVGShape_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SVGShape(drawable: SVGPath.testPath)
-                .rasterized()
+            SVGShape(element: SVGPath.testPath)
                 .previewLayout(.sizeThatFits)
-            SVGShape(drawable: SVGPath.circle)
-                .rasterized()
+            SVGShape(element: SVGPath.circle)
                 .previewLayout(.sizeThatFits)
         }
     }

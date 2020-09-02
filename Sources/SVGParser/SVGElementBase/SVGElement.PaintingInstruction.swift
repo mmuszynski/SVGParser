@@ -12,5 +12,7 @@ extension SVGElement {
     enum PaintingInstruction: Hashable {
         case fill(_ color: String)
         case stroke(_ color: String, strokeWidth: CGFloat)
+        
+        static let defaultFillInstruction: PaintingInstruction = PaintingInstruction.fill("000000")
     }
 }
