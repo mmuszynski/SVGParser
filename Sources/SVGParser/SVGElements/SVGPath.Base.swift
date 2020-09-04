@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreGraphics
 
 extension Scanner {
     fileprivate func scanCGPoint() -> CGPoint? {

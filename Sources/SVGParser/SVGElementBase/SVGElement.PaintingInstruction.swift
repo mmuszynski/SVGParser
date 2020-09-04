@@ -10,8 +10,8 @@ import Foundation
 
 extension SVGElement {
     enum PaintingInstruction: Hashable {
-        case fill(_ color: String)
-        case stroke(_ color: String, strokeWidth: CGFloat)
+        case fill(_ color: String, opacity: CGFloat? = nil)
+        case stroke(_ color: String, opacity: CGFloat? = nil, strokeWidth: CGFloat = 1.0)
         
         static let defaultFillInstruction: PaintingInstruction = PaintingInstruction.fill("000000")
     }

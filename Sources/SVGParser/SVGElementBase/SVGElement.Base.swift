@@ -17,19 +17,12 @@ class SVGElement {
     }
     var parent: SVGElement?
     var children: [SVGElement] = []
-    var paintingInstructions: [SVGElement.PaintingInstruction] = []
     var transformInstructions: [SVGElement.Transform] = []
+    var id: String?
+    var attributes = [String: String]()
     
     var allTransformInstructions: [SVGElement.Transform] {
         return (parent?.transformInstructions ?? []) + self.transformInstructions
-    }
-    
-    var allPaintingInstructions: [SVGElement.PaintingInstruction] {
-        let instructions = (parent?.paintingInstructions ?? []) + self.paintingInstructions
-        if self.children.isEmpty && instructions.isEmpty {
-            return [.defaultFillInstruction]
-        }
-        return instructions
     }
     
     var preserveAspectRatio: PreserveAspectRatio = .default //PreserveAspectRatio(align: .none, meetOrSlice: .meet)
@@ -51,30 +44,23 @@ class SVGElement {
     /// Updates painting instructions and other attributes.
     /// - Parameter attributeDict: The attributes returned by the XML
     func updateAttributes(with attributes: [String: String]) {
-        if let fillColor = attributes["fill"] {
-            paintingInstructions.append(.fill(fillColor))
-        }
-        
-        if let strokeColor = attributes["stroke"] {
-            let strokeWidth = CGFloat(truncating: NumberFormatter().number(from: attributes["stroke-width"] ?? "") ?? 1)
-            paintingInstructions.append(.stroke(strokeColor, strokeWidth: strokeWidth))
-        }
-        
         if let transformString = attributes["transform"] {
             let transforms = Array<SVGElement.Transform>(string: transformString)
             self.transformInstructions = transforms
         }
+        
+        if let id = attributes["id"] {
+            self.id = id
+        }
+        
+        self.attributes = attributes
     }
     
     func scale(for rect: CGRect) -> CGFloat {
-        let vb_x = viewBox?.minX ?? rect.minX
-        let vb_y = viewBox?.minY ?? rect.minY
         let vb_width = viewBox?.width ?? rect.width
         let vb_height = viewBox?.height ?? rect.height
         
         //Let e-x, e-y, e-width, e-height be the position and size of the element respectively.
-        let e_x = rect.minX
-        let e_y = rect.minY
         let e_width = rect.width
         let e_height = rect.height
         

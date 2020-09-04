@@ -7,31 +7,24 @@
 //
 
 import Foundation
-import CoreGraphics
 
 class SVGCircle: SVGElement {
-    var center: CGPoint = .zero
-    var radius: CGFloat = 0
+    var center: CGPoint {
+        guard let cx = attributes["cx"]?.asCGFloat, let cy = attributes["cy"]?.asCGFloat else {
+            return .zero
+        }
+        
+        return CGPoint(x: cx, y: cy)
+    }
+    
+    var radius: CGFloat {
+        return attributes["r"]?.asCGFloat ?? 0
+    }
     
     override var path: CGPath {
         let path = CGMutablePath()
         path.addArc(center: center, radius: radius, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         return path
     }
-    
-    override func updateAttributes(with attributes: [String : String]) {
-        let formatter = NumberFormatter()
-        
-        if let cx = attributes["cx"], let number = formatter.number(from: cx) {
-            center.x = CGFloat(truncating: number)
-        }
-        if let cy = attributes["cy"], let number = formatter.number(from: cy) {
-            center.y = CGFloat(truncating: number)
-        }
-        if let rad = attributes["r"], let number = formatter.number(from: rad) {
-            radius = CGFloat(truncating: number)
-        }
-        
-        super.updateAttributes(with: attributes)
-    }
+
 }

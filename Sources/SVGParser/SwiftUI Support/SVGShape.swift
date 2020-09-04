@@ -10,9 +10,6 @@ import SwiftUI
 
 struct SVGShape: Shape {
     var element: SVGElement
-    var paintingInstructions: [SVGElement.PaintingInstruction] {
-        return element.allPaintingInstructions
-    }
     
     func path(in rect: CGRect) -> Path {
         let path = Path(element.path(in: rect))
@@ -31,7 +28,8 @@ struct SVGShape: Shape {
             return final
         }
         
-        return path.applying(finalTransform(in: rect))
+        let transform = finalTransform(in: rect)
+        return path.applying(transform)
     }
 }
 

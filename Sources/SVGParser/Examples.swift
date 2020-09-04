@@ -13,6 +13,7 @@ struct SVGExamples_Previews: PreviewProvider {
             SVGImageView(image: .svg(named: "android"))
             SVGImageView(image: .svg(named: "beacon"))
             SVGImageView(image: .svg(named: "couch"))
+            SVGImageView(image: .svg(named: "square50"))
         }
     }
 }

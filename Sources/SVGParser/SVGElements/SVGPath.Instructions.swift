@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mike Muszynski. All rights reserved.
 //
 
-import CoreGraphics
+import Foundation
 
 extension SVGPath {
     enum Instruction {

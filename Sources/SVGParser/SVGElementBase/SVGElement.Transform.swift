@@ -24,6 +24,15 @@ extension SVGElement {
                 return CGAffineTransform(translationX: x, y: y)
             case .scale(let x, let y):
                 return CGAffineTransform(scaleX: x, y: y)
+            case .rotate(let degrees, around: let point):
+                let x = point?.x ?? 0
+                let y = point?.y ?? 0
+                
+                let t = CGAffineTransform(translationX: x, y: y)
+                    .rotated(by: degrees * .pi / 180)
+                    .translatedBy(x: -x, y: -y)
+                
+                return t
             default:
                 return .identity
             }
@@ -123,10 +132,11 @@ extension Array where Element == SVGElement.Transform {
                 elements.append(.scale(scannedCoordinates[0], scannedCoordinates[1]))
             case "rotate":
                 guard scannedCoordinates.count > 0 else { fatalError() }
+                let degrees = scannedCoordinates[0]
                 if scannedCoordinates.count == 3 {
-                    elements.append(.rotate(scannedCoordinates[0], around: CGPoint(x: scannedCoordinates[1], y: scannedCoordinates[2])))
+                    elements.append(.rotate(degrees, around: CGPoint(x: scannedCoordinates[1], y: scannedCoordinates[2])))
                 } else {
-                    elements.append(.rotate(scannedCoordinates[0], around: nil))
+                    elements.append(.rotate(degrees, around: nil))
                 }
             case "skewx":
                 guard scannedCoordinates.count > 0 else { fatalError() }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreGraphics
 
 class SVGTopElement: SVGGroup {
     private var _viewBox: CGRect?
