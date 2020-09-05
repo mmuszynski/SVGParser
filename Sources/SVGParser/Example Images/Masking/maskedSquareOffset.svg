@@ -1,0 +1,8 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <mask id="myMask">
+	    <rect width="300" height="300" x="50" y="50" fill="white"/>
+        <circle cx="100" cy="100" r="100" fill="black"/>
+    </mask>
+
+	<rect width="300" height="300" x="50" y="50" fill="black" mask="url(#myMask)"/>
+</svg>

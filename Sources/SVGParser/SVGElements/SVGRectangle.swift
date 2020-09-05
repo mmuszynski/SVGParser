@@ -19,10 +19,14 @@ class SVGRectangle: SVGElement {
         
         if let att = attributes["width"], let number = formatter.number(from: att) {
             rect.size.width = CGFloat(truncating: number)
+        } else if let vb = viewBox, let width = attributes["width"]?.asCGFloat(in: vb.width) {
+            rect.size.width = width
         }
         
         if let att = attributes["height"], let number = formatter.number(from: att) {
             rect.size.height = CGFloat(truncating: number)
+        } else if let vb = viewBox, let height = attributes["height"]?.asCGFloat(in: vb.height) {
+            rect.size.height = height
         }
         
         if let att = attributes["x"], let number = formatter.number(from: att) {

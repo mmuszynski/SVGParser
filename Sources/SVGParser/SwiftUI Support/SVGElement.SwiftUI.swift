@@ -129,7 +129,7 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .mask(self.mask?.rendered().compositingGroup().luminanceToAlpha())
+                .alphaMask(self.mask?.rendered())
             )
         }
     }
@@ -137,14 +137,15 @@ extension SVGElement {
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
         SVGImageView(image: .svg(named: "Spade"))
-            .previewLayout(.fixed(width: 300, height: 300))
     }
 }
 
 extension View {
-    func alphaMask<Mask>(_ mask: Mask?) -> some View where Mask : View {
-        mask?
-            .compositingGroup()
-            .luminanceToAlpha()
+    func alphaMask<Mask>(_ view: Mask?) -> some View where Mask : View {
+        self.mask(
+            view?
+                .compositingGroup()
+                .luminanceToAlpha()
+        )
     }
 }

@@ -23,4 +23,16 @@ internal extension String {
     var asCGFloat: CGFloat? {
         return CGFloat(self)
     }
+    
+    func asCGFloat(in dimension: CGFloat) -> CGFloat? {
+        if let float = self.asCGFloat { return float }
+        
+        //check for percentage
+        let percentage = self.replacingOccurrences(of: "%", with: "")
+        if self != percentage, let float = percentage.asCGFloat {
+            return float * dimension / 100
+        }
+        
+        return nil
+    }
 }
