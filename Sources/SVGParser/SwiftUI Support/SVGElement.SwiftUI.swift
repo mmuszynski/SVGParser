@@ -23,6 +23,21 @@ fileprivate extension String {
 extension SVGElement: Identifiable {}
 
 extension SVGElement {
+    var drawableChildren: [SVGElement] {
+        return children.filter { child in
+            return !(child is SVGMask)
+        }
+    }
+    
+    var mask: SVGMask? {
+        guard let maskURL = attributes["mask"] else { return nil }
+        let parts = maskURL.components(separatedBy: "#")
+        let name = parts[1].replacingOccurrences(of: ")", with: "")
+        let mask = self.rootElement.descendant(named: name)
+        
+        return mask as? SVGMask
+    }
+    
     var strokeColor: Color? {
         //Travel up the parents looking for instructions
         var element: SVGElement? = self
@@ -69,32 +84,67 @@ extension SVGElement {
     }
     
     func rendered() -> some View {
-        ZStack {
-            if let color = self.strokeColor {
-                SVGShape(element: self)
-                    .stroke(color, lineWidth: strokeWidth)
-                    .opacity(self.strokeOpacity)
-            }
-            
-            if let color = self.fillColor {
-                SVGShape(element: self)
-                    .fill(color)
-                    .opacity(self.fillOpacity)
-            }
-            
-            ForEach(0..<children.count) { i in
-                let child = self.children[i]
-                AnyView(child.rendered())
-            }
+        if self.mask == nil {
+            return AnyView(
+                ZStack {
+                    if let color = self.strokeColor {
+                        SVGShape(element: self)
+                            .stroke(color, lineWidth: strokeWidth)
+                            .opacity(self.strokeOpacity)
+                    }
+                    
+                    if let color = self.fillColor {
+                        SVGShape(element: self)
+                            .fill(color)
+                            .opacity(self.fillOpacity)
+                    }
+                    
+                    ForEach(0..<drawableChildren.count) { i in
+                        let child = self.drawableChildren[i]
+                        AnyView(child.rendered())
+                    }
+                }
+                .compositingGroup()
+                .opacity(self.opacity)
+            )
+        } else {
+            return AnyView(
+                ZStack {
+                    if let color = self.strokeColor {
+                        SVGShape(element: self)
+                            .stroke(color, lineWidth: strokeWidth)
+                            .opacity(self.strokeOpacity)
+                    }
+                    
+                    if let color = self.fillColor {
+                        SVGShape(element: self)
+                            .fill(color)
+                            .opacity(self.fillOpacity)
+                    }
+                    
+                    ForEach(0..<drawableChildren.count) { i in
+                        let child = self.drawableChildren[i]
+                        AnyView(child.rendered())
+                    }
+                }
+                .compositingGroup()
+                .opacity(self.opacity)
+                .mask(self.mask?.rendered().compositingGroup().luminanceToAlpha())
+            )
         }
-        .compositingGroup()
-        .opacity(self.opacity)
     }
 }
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
-        SVGImageView(image: .svg(named: "Club"))
+        SVGImageView(image: .svg(named: "Spade"))
             .previewLayout(.fixed(width: 300, height: 300))
     }
 }
 
+extension View {
+    func alphaMask<Mask>(_ mask: Mask?) -> some View where Mask : View {
+        mask?
+            .compositingGroup()
+            .luminanceToAlpha()
+    }
+}

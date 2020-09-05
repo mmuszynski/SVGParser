@@ -57,6 +57,12 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
             }
             
             rect.updateAttributes(with: attributeDict)
+        case "mask":
+            let newGroup = SVGMask()
+            currentElement?.append(newGroup)
+            newGroup.parent = currentElement
+            newGroup.updateAttributes(with: attributeDict)
+            currentElement = newGroup
         default:
             break
         }

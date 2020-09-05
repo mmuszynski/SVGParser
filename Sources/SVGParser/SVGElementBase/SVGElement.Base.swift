@@ -155,7 +155,25 @@ class SVGElement {
         return [.translate(translate_x, translate_y), .scale(scale_x, scale_y)]
     }
     
+    func descendant(named name: String) -> SVGElement? {
+        for child in children {
+            if child.id == name {
+                return child
+            } else {
+                return child.descendant(named: name)
+            }
+        }
+        
+        return nil
+    }
     
+    var rootElement: SVGElement {
+        var element: SVGElement? = self
+        while element?.parent != nil {
+            element = element?.parent
+        }
+        return element!
+    }
 }
 
 extension SVGElement: CustomDebugStringConvertible {

@@ -8,13 +8,6 @@
 import Foundation
 
 class SVGMask: SVGGroup {
-//    readonly attribute SVGAnimatedEnumeration maskUnits;
-//      readonly attribute SVGAnimatedEnumeration maskContentUnits;
-//      readonly attribute SVGAnimatedLength x;
-//      readonly attribute SVGAnimatedLength y;
-//      readonly attribute SVGAnimatedLength width;
-//      readonly attribute SVGAnimatedLength height;
-    
     var x: CGFloat? {
         attributes["x"]?.asCGFloat
     }
@@ -30,6 +23,5 @@ class SVGMask: SVGGroup {
     var height: CGFloat? {
         attributes["height"]?.asCGFloat
     }
-    
 }
 
