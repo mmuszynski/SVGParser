@@ -68,6 +68,14 @@ extension SVGElement {
             if let color = element?.attributes["fill"] {
                 return Color(cssString: color)
             }
+            
+            if let style = element?.attributes["style"] {
+                let styles = style.components(separatedBy: ";").map({ $0.components(separatedBy: ":") })
+                if let fill = styles.filter( { $0[0] == "fill" } ).first?.last {
+                    return Color(cssString: fill)
+                }
+            }
+            
             element = element?.parent
         }
         
@@ -136,7 +144,7 @@ extension SVGElement {
 }
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
-        SVGImageView(image: .svg(named: "Spade"))
+        SVGImageView(image: .svg(named: "Heart"))
     }
 }
 
