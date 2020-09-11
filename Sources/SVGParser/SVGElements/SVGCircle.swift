@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class SVGCircle: SVGElement {
     var center: CGPoint {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class SVGRectangle: SVGElement {
     var rect: CGRect = .zero

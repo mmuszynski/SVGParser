@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 enum SVGUnitTypes: Int {
     case unknown = 0, userSpaceOnUse, objectBoundingBox

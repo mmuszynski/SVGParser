@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class SVGMask: SVGGroup {
     var x: CGFloat? {
