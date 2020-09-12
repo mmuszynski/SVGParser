@@ -84,4 +84,18 @@ class SVGParserTests: XCTestCase {
         print(parser.svg.debugDescription)
     }
     
+    func testCGFloatConversion() {
+        let string = "123"
+        measure {
+            let _ = string.asCGFloat
+        }
+    }
+    
+    func test2() {
+        let string = "123"
+        measure {
+            let _ = CGFloat(string)
+        }
+    }
+    
 }

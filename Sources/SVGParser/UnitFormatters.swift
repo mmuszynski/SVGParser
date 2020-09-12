@@ -22,6 +22,9 @@ internal extension CGFloat {
 
 internal extension String {
     var asCGFloat: CGFloat? {
+        if let n = NumberFormatter().number(from: self) {
+            return CGFloat(truncating: n)
+        }
         return CGFloat(self)
     }
     
