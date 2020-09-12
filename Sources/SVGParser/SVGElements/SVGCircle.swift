@@ -10,16 +10,24 @@ import Foundation
 import CoreGraphics
 
 class SVGCircle: SVGElement {
+    
+    private var _center: CGPoint?
     var center: CGPoint {
+        if let center = _center { return center }
+        
         guard let cx = attributes["cx"]?.asCGFloat, let cy = attributes["cy"]?.asCGFloat else {
             return .zero
         }
         
-        return CGPoint(x: cx, y: cy)
+        self._center = CGPoint(x: cx, y: cy)
+        return self.center
     }
     
+    private var _radius: CGFloat?
     var radius: CGFloat {
-        return attributes["r"]?.asCGFloat ?? 0
+        if let radius = _radius { return radius }
+        self._radius = attributes["r"]?.asCGFloat ?? 0
+        return self.radius
     }
     
     override var path: CGPath {
