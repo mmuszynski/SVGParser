@@ -10,6 +10,7 @@ import Foundation
 import CoreGraphics
 
 final class SVGXMLParser: XMLParser, XMLParserDelegate {
+    //Not sure why this is public when the class is not.
     public var svg = SVGTopElement()
     private var currentElement: SVGElement?
     

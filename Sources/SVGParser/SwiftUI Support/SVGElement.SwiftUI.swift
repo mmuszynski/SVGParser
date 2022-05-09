@@ -20,8 +20,6 @@ fileprivate extension String {
     }
 }
 
-extension SVGElement: Identifiable {}
-
 extension SVGElement {
     var drawableChildren: [SVGElement] {
         return children.filter { child in
@@ -107,7 +105,7 @@ extension SVGElement {
                             .opacity(self.fillOpacity)
                     }
                     
-                    ForEach(0..<drawableChildren.count) { i in
+                    ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
                         AnyView(child.rendered())
                     }
@@ -130,7 +128,7 @@ extension SVGElement {
                             .opacity(self.fillOpacity)
                     }
                     
-                    ForEach(0..<drawableChildren.count) { i in
+                    ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
                         AnyView(child.rendered())
                     }
