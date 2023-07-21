@@ -99,7 +99,10 @@ class SVGParserTests: XCTestCase {
     }
     
     func testNoGroupSVG() throws {
+        SVGParser.debug = true
         let single = try SVGSingleElementContent(forResource: "opusNatural", withExtenstion: "svg")
+        XCTAssertNotNil(single.path)
+        SVGParser.debug = false
     }
     
 }

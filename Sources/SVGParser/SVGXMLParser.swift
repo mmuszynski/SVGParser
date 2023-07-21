@@ -8,6 +8,10 @@
 
 import Foundation
 import CoreGraphics
+import OSLog
+
+@available(macOS 11.0, *)
+fileprivate let logger = Logger(subsystem: "com.mmuszynski.svgparser", category: "SVGXMLParser")
 
 final class SVGXMLParser: XMLParser, XMLParserDelegate {
     //Not sure why this is public when the class is not.
@@ -20,6 +24,11 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        
+        if #available(macOS 11.0, *), SVGParser.debug {
+            logger.trace("Encountered \(elementName)")
+        }
+        
         switch elementName {
         case "svg":
             svg = SVGTopElement()
@@ -70,6 +79,10 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if #available(macOS 11.0, *), SVGParser.debug {
+            logger.trace("Did end \(elementName)")
+        }
+        
         if !(currentElement is SVGTopElement) {
             currentElement = currentElement?.parent
         }
