@@ -98,4 +98,8 @@ class SVGParserTests: XCTestCase {
         }
     }
     
+    func testNoGroupSVG() throws {
+        let single = try SVGSingleElementContent(forResource: "opusNatural", withExtenstion: "svg")
+    }
+    
 }

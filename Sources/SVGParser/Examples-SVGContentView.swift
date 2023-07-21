@@ -39,10 +39,10 @@ class SVGSingleElementContentView: NSView {
 }
 
 struct SVGView: NSViewRepresentable {
-    var content: SVGContent
+    var content: SVGSingleElementContent
     
     func makeNSView(context: Context) -> some NSView {
-        return SVGContentView(content: content)
+        return SVGSingleElementContentView(content: content)
     }
     
     func updateNSView(_ nsView: NSViewType, context: Context) {
