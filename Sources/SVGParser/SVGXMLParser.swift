@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 import OSLog
 
-@available(macOS 11.0, *)
+@available(macOS 11.0, iOS 14.0, *)
 fileprivate let logger = Logger(subsystem: "com.mmuszynski.svgparser", category: "SVGXMLParser")
 
 final class SVGXMLParser: XMLParser, XMLParserDelegate {
@@ -25,7 +25,7 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
-        if #available(macOS 11.0, *), SVGParser.debug {
+        if #available(macOS 11.0, iOS 14, *), SVGParser.debug {
             logger.trace("Encountered \(elementName)")
         }
         
@@ -79,7 +79,7 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if #available(macOS 11.0, *), SVGParser.debug {
+        if #available(macOS 11.0, iOS 14, *), SVGParser.debug {
             logger.trace("Did end \(elementName)")
         }
         
