@@ -32,7 +32,7 @@ extension Color {
             self = .clear
             return
         }
-        guard let color = scanner.scanUInt64(representation: .hexadecimal) else { fatalError() }
+        guard let color = scanner.scanUInt64(representation: .hexadecimal) else { fatalError("Unable to scan hex color: \(string)") }
 
         if string.count == 2 {
             let mask: Int = 0xFF
