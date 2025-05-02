@@ -23,7 +23,7 @@ public struct SVGImageView: View {
 }
 
 extension SVGImage {
-    static func svg(named name: String) -> SVGImage {
+    public static func svg(named name: String) -> SVGImage {
         let dataURL = Bundle.module.url(forResource: name, withExtension: "svg")!
         let image = try! SVGImage(contentsOf: dataURL)
         return image
