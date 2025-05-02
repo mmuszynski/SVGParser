@@ -90,7 +90,7 @@ class SVGElement {
         return scale_x
     }
     
-    func transformForViewBox(to viewport: CGRect) -> [SVGElement.Transform] {
+    @Sendable func transformForViewBox(to viewport: CGRect) -> [SVGElement.Transform] {
         //Let vb-x, vb-y, vb-width, vb-height be the min-x, min-y, width and height values of the viewBox attribute respectively.
         
         let vb_x = viewBox?.minX ?? viewport.minX

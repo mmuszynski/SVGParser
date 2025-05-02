@@ -9,16 +9,24 @@
 import SwiftUI
 
 struct SVGShape: Shape {
-    var element: SVGElement
+    var _path: Path
+    var instructions: [SVGElement.Transform]
+    var viewBoxTransform: @Sendable (CGRect) -> [SVGElement.Transform]
+    
+    init(element: SVGElement) {
+        instructions = element.allTransformInstructions
+        _path = Path(element.path ?? CGMutablePath())
+        viewBoxTransform = element.transformForViewBox(to:)
+    }
     
     func path(in rect: CGRect) -> Path {
-        let path = Path(element.path(in: rect))
+        let path = _path
         
         func finalTransform(in rect: CGRect) -> CGAffineTransform {
             var final = CGAffineTransform.identity
             
-            var allTransforms = element.allTransformInstructions
-            let viewBoxTransforms = element.transformForViewBox(to: rect)
+            var allTransforms = instructions
+            let viewBoxTransforms = viewBoxTransform(rect)
             allTransforms = (viewBoxTransforms + allTransforms).reversed()
             
             for instruction in allTransforms {
