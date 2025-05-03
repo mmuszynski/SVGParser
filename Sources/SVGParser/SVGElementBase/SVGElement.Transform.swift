@@ -9,7 +9,7 @@ import Foundation
 import CoreGraphics
 
 extension SVGElement {
-    enum Transform {
+    enum Transform: Sendable {
         case matrix(_ transform: CGAffineTransform)
         case translate(_ x: CGFloat, _ y: CGFloat)
         case scale(_ x: CGFloat, _ y: CGFloat)

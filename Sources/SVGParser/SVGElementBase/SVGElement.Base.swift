@@ -90,7 +90,7 @@ class SVGElement {
         return scale_x
     }
     
-    @Sendable func transformForViewBox(to viewport: CGRect) -> [SVGElement.Transform] {
+    static func transform(from viewBox: CGRect?, to viewport: CGRect, preserveAspectRatio: PreserveAspectRatio = .default) -> [SVGElement.Transform] {
         //Let vb-x, vb-y, vb-width, vb-height be the min-x, min-y, width and height values of the viewBox attribute respectively.
         
         let vb_x = viewBox?.minX ?? viewport.minX
@@ -106,8 +106,8 @@ class SVGElement {
         
         //Let align be the align value of preserveAspectRatio, or 'xMidYMid' if preserveAspectRatio is not defined.
         //Let meetOrSlice be the meetOrSlice value of preserveAspectRatio, or 'meet' if preserveAspectRatio is not defined or if meetOrSlice is missing from this value.
-        let align = self.preserveAspectRatio.align
-        let meetOrSlice = self.preserveAspectRatio.meetOrSlice
+        let align = preserveAspectRatio.align
+        let meetOrSlice = preserveAspectRatio.meetOrSlice
         
         //Initialize scale-x to e-width/vb-width.
         //Initialize scale-y to e-height/vb-height.

@@ -72,8 +72,8 @@ class SVGParserTests: XCTestCase {
     }
     
     func testHexColor() {
-        let color = Color(cssString: "red")
-        XCTAssertEqual(color, Color(cssString: "#FF0000"))
+        let color = Color(svgString: "red")
+        XCTAssertEqual(color, Color(svgString: "#FF0000"))
     }
     
     func testDescription() {
@@ -98,7 +98,7 @@ class SVGParserTests: XCTestCase {
         }
     }
     
-    func testNoGroupSVG() throws {
+    @MainActor func testNoGroupSVG() throws {
         SVGParser.debug = true
         let single = try SVGSingleElementContent(forResource: "opusNatural", withExtenstion: "svg")
         XCTAssertNotNil(single.path)

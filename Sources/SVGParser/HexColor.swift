@@ -7,38 +7,51 @@
 //
 
 import SwiftUI
+import RegexBuilder
 
 extension Color {
-    public init(cssString string: String) {
-        if let hexString = Color.cssColors.filter( { $0.key.lowercased() == string } ).first?.value {
-            self.init(hexString: hexString)
-        } else {
-            self.init(hexString: string)
-        }
-    }
-    
-    @available(*, unavailable, message: "Use init(cssString:) instead")
-    public init(hex string: String) {
-        fatalError()
-    }
-    
-    private init(hexString string: String) {
-        let string: String = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: "#")))
-
-        // Scanner creation
-        let scanner = Scanner(string: string)
-
-        guard string != "none" else {
-            self = .clear
+    public init?(svgString string: String) {
+        if let color = Color.hexString(string) {
+            //three digit hex
+            //six digit hex
+            self = color
+            return
+        } else if let color = Color.integerFunctionalString(string) {
+            //integer functional
+            self = color
+            return
+        } else if let color = Color.floatFunctionalString(string) {
+            //float functional
+            self = color
+            return
+        } else if let color = Color.cssKeyword(string) {
+            //color keyword
+            self = color
             return
         }
-        guard let color = scanner.scanUInt64(representation: .hexadecimal) else { fatalError("Unable to scan hex color: \(string)") }
-
+        
+        return nil
+    }
+    
+    static private func hexString(_ string: String) -> Self? {
+        let string: String = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: "#")))
+        
+        // Scanner creation
+        let scanner = Scanner(string: string)
+        
+        guard string != "none" else {
+            return .clear
+        }
+        guard let color = scanner.scanUInt64(representation: .hexadecimal) else {
+            print("Unable to scan hex color: \(string)")
+            return nil
+        }
+        
         if string.count == 2 {
             let mask: Int = 0xFF
             let g: Int = Int(color) & mask
             let gray: Double = Double(g) / 255.0
-            self.init(.sRGB, red: gray, green: gray, blue: gray, opacity: 1)
+            return Color(.sRGB, red: gray, green: gray, blue: gray, opacity: 1)
         } else if string.count == 3 {
             var newString = ""
             for character in string {
@@ -46,48 +59,120 @@ extension Color {
                 newString.append(character)
             }
             
-            self.init(hexString: newString)
+            return Color.hexString(newString)
         } else if string.count == 4 {
             let mask: Int = 0x00FF
-
+            
             let g: Int = Int(color >> 8) & mask
             let a: Int = Int(color) & mask
-
+            
             let gray: Double = Double(g) / 255.0
             let alpha: Double = Double(a) / 255.0
-
-            self.init(.sRGB, red: gray, green: gray, blue: gray, opacity: alpha)
-
+            
+            return Color(.sRGB, red: gray, green: gray, blue: gray, opacity: alpha)
+            
         } else if string.count == 6 {
             let mask = 0x0000FF
             let r: Int = Int(color >> 16) & mask
             let g: Int = Int(color >> 8) & mask
             let b: Int = Int(color) & mask
-
+            
             let red: Double = Double(r) / 255.0
             let green: Double = Double(g) / 255.0
             let blue: Double = Double(b) / 255.0
-
-            self.init(.sRGB, red: red, green: green, blue: blue, opacity: 1)
-
+            
+            return Color(.sRGB, red: red, green: green, blue: blue, opacity: 1)
+            
         } else if string.count == 8 {
             let mask: Int = 0x000000FF
             let r: Int = Int(color >> 24) & mask
             let g: Int = Int(color >> 16) & mask
             let b: Int = Int(color >> 8) & mask
             let a: Int = Int(color) & mask
-
+            
             let red: Double = Double(r) / 255.0
             let green: Double = Double(g) / 255.0
             let blue: Double = Double(b) / 255.0
             let alpha: Double = Double(a) / 255.0
-
-            self.init(.sRGB, red: red, green: green, blue: blue, opacity: alpha)
-
+            
+            return Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha)
+            
         } else {
-            self.init(.sRGB, red: 1, green: 1, blue: 1, opacity: 1)
+            return Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1)
         }
     }
+    
+    static func cssKeyword(_ name: String) -> Color? {
+        if let hex = Color.cssColors.filter( { $0.key.localizedCaseInsensitiveCompare(name) == .orderedSame } ).first?.value {
+            return Self.hexString(hex)
+        }
+        return nil
+    }
+    
+    static func integerFunctionalString(_ string: String) -> Color? {
+        let regex = Regex {
+            Optionally("rgb")
+            "("
+            Capture {
+                OneOrMore {
+                    OneOrMore(.digit)
+                    Optionally {
+                        OneOrMore(.whitespace.union(CharacterClass.anyOf(",")))
+                    }
+                }
+            }
+            ")"
+        }
+
+        if let match = string.firstMatch(of: regex)?.output.1 {
+            var components = match.components(separatedBy: CharacterSet(charactersIn: ",% ")).compactMap(Double.init)
+            guard components.count > 2 else { return nil }
+            
+            components.reverse()
+            
+            return Color(.sRGB,
+                         red: (components.popLast() ?? 255) / 255,
+                         green: (components.popLast() ?? 255) / 255,
+                         blue: (components.popLast() ?? 255) / 255,
+                         opacity: (components.popLast() ?? 255) / 255)
+        }
+
+        return nil
+    }
+    
+    static func floatFunctionalString(_ string: String) -> Color? {
+        let regex = Regex {
+            Optionally("rgb")
+            "("
+            Capture {
+                OneOrMore {
+                    OneOrMore(.digit)
+                    Optionally(".")
+                    OneOrMore(.digit)
+                    "%"
+                    Optionally {
+                        OneOrMore(.whitespace.union(CharacterClass.anyOf(",")))
+                    }
+                }
+            }
+            ")"
+        }
+
+        if let match = string.firstMatch(of: regex)?.output.1 {
+            var components = match.components(separatedBy: CharacterSet(charactersIn: ",% ")).compactMap(Double.init)
+            guard components.count > 2 else { return nil }
+            
+            components = components.map { $0 * 255 / 100 }.reversed()
+            print(components)
+            
+            return Color(.sRGB,
+                         red: (components.popLast() ?? 255),
+                         green: (components.popLast() ?? 255),
+                         blue: (components.popLast() ?? 255),
+                         opacity: (components.popLast()) ?? 1)
+        }
+
+        return nil    }
 }
 
 extension Color {

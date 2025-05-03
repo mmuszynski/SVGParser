@@ -25,8 +25,10 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
-        if #available(macOS 11.0, iOS 14, *), SVGParser.debug {
-            logger.trace("Encountered \(elementName)")
+        Task {
+            if #available(macOS 11.0, iOS 14, *), await SVGParser.debug {
+                logger.trace("Encountered \(elementName)")
+            }
         }
         
         switch elementName {
@@ -79,8 +81,10 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if #available(macOS 11.0, iOS 14, *), SVGParser.debug {
-            logger.trace("Did end \(elementName)")
+        Task {
+            if #available(macOS 11.0, iOS 14, *), await SVGParser.debug {
+                logger.trace("Did end \(elementName)")
+            }
         }
         
         if !(currentElement is SVGTopElement) {

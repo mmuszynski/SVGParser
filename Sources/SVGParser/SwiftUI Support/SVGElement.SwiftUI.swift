@@ -42,7 +42,7 @@ extension SVGElement {
         while element != nil {
             //Return the first one that we find
             if let color = element?.attributes["stroke"] {
-                return Color(cssString: color)
+                return Color(svgString: color)
             }
             element = element?.parent
         }
@@ -64,13 +64,13 @@ extension SVGElement {
         while element != nil {
             //Return the first one that we find
             if let color = element?.attributes["fill"] {
-                return Color(cssString: color)
+                return Color(svgString: color)
             }
             
             if let style = element?.attributes["style"] {
                 let styles = style.components(separatedBy: ";").map({ $0.components(separatedBy: ":") })
                 if let fill = styles.filter( { $0[0] == "fill" } ).first?.last {
-                    return Color(cssString: fill)
+                    return Color(svgString: fill)
                 }
             }
             
@@ -89,7 +89,7 @@ extension SVGElement {
         return Double(attributes["opacity"]?.asCGFloat ?? 1)
     }
     
-    func rendered() -> some View {
+    @MainActor func rendered() -> some View {
         if self.mask == nil {
             return AnyView(
                 ZStack {

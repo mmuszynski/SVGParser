@@ -8,5 +8,5 @@
 import Foundation
 
 enum SVGParser {
-    static var debug: Bool = false
+    @MainActor static var debug: Bool = false
 }
