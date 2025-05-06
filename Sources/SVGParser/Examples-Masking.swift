@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SVGExamplesMasking_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             SVGImageView(image: .svg(named: "Spade"))
             SVGImageView(image: .svg(named: "maskedSquare"))
             SVGImageView(image: .svg(named: "maskedSquareOffset"))

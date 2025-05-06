@@ -29,7 +29,8 @@ class SVGElement {
     
     /// The View Box for the top level parent
     var viewBox: CGRect? {
-        while let parent = parent {
+        var parent = self
+        while let parent = parent.parent {
             if let box = parent.viewBox {
                 return box
             }

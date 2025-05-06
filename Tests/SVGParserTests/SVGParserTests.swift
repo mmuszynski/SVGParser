@@ -105,4 +105,10 @@ class SVGParserTests: XCTestCase {
         SVGParser.debug = false
     }
     
+    @MainActor func testBassoonKey() throws {
+        let _ = try! svgData(named: "HighCKey")
+        let image = SVGImage.svg(named: "HighCKey")
+        let _ = SVGImageView(image: image)
+    }
+    
 }

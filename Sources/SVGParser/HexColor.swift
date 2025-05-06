@@ -8,6 +8,9 @@
 
 import SwiftUI
 import RegexBuilder
+import OSLog
+
+fileprivate let logger = Logger(subsystem: "com.mmuszynski.SVGParser", category: "Colors")
 
 extension Color {
     public init?(svgString string: String) {
@@ -30,6 +33,7 @@ extension Color {
             return
         }
         
+        logger.debug("Could not parse \(string) as a csv color")
         return nil
     }
     
@@ -42,8 +46,8 @@ extension Color {
         guard string != "none" else {
             return .clear
         }
+        
         guard let color = scanner.scanUInt64(representation: .hexadecimal) else {
-            print("Unable to scan hex color: \(string)")
             return nil
         }
         

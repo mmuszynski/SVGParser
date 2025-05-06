@@ -90,7 +90,7 @@ struct SVGView: UIViewRepresentable {
 
 struct SVGExamplesUIKitCocoa_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        HStack {
             SVGView(content: try! SVGSingleElementContent(forResource: "opusSharp", withExtenstion: "svg"))
             SVGView(content: try! SVGSingleElementContent(forResource: "opusWholeNote", withExtenstion: "svg"))
             SVGView(content: try! SVGSingleElementContent(forResource: "opusNumeral4", withExtenstion: "svg"))
