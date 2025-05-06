@@ -30,7 +30,8 @@ class SVGElement {
     /// The View Box for the top level parent
     var viewBox: CGRect? {
         var parent = self
-        while let parent = parent.parent {
+        while let next = parent.parent {
+            parent = next
             if let box = parent.viewBox {
                 return box
             }
