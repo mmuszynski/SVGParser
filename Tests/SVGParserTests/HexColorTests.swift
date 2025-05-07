@@ -12,9 +12,12 @@ import SwiftUI
 struct HexColorTests {
     @Test
     func keywordColors() async throws {
-        #expect(Color(svgString: "red") != nil)
-        #expect(Color(svgString: "blue") != nil)
-        #expect(Color(svgString: "Green") != nil)
+        #expect(Color(svgString: "red") == Color(.sRGB, red: 1, green: 0, blue: 0, opacity: 1))
+        #expect(Color(svgString: "blue") == Color(.sRGB, red: 0, green: 0, blue: 1, opacity: 1))
+        #expect(Color(svgString: "Green") == Color(.sRGB, red: 0, green: 128 / 255.0, blue: 0, opacity: 1))
+        
+        #expect(Color(svgString: "black") == .black)
+        #expect(Color(svgString: "#000") == .black)
     }
     
     @Test("Integer functional")

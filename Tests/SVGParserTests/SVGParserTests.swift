@@ -109,6 +109,19 @@ class SVGParserTests: XCTestCase {
         let _ = try! svgData(named: "HighCKey")
         let image = SVGImage.svg(named: "HighCKey")
         let _ = SVGImageView(image: image)
+        
+        XCTAssertNotNil(image.content.svg.descendant(named: "High-C-Key"))
+        XCTAssertNotNil(image.content.svg.descendant(named: "High-C-Key")?.strokeColor == .black)
+    }
+    
+    @MainActor func testSpade() throws {
+        let _ = try! svgData(named: "Spade")
+        let image = SVGImage.svg(named: "Spade")
+        let _ = SVGImageView(image: image)
+        
+        image.content.svg.descendant(named: "stem-mask")?.children.forEach {
+            XCTAssert($0.fillColor != nil)
+        }
     }
     
 }

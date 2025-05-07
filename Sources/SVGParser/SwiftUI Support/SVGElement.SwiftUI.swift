@@ -36,49 +36,59 @@ extension SVGElement {
         return mask as? SVGMask
     }
     
-    var strokeColor: Color? {
-        //Travel up the parents looking for instructions
-        var element: SVGElement? = self
-        while element != nil {
-            //Return the first one that we find
-            if let color = element?.attributes["stroke"] {
-                return Color(svgString: color)
-            }
-            element = element?.parent
+    func getStyleAttributeString(named attributeName: String) -> String? {
+        if let color = self.attributes[attributeName] {
+            return color
         }
         
+        //fill:rgb(84,84,84);stroke:black;stroke-width:7.5px;
+        let styleAttributes = self.attributes["style"]?.components(separatedBy: ";")
+        let styles = styleAttributes?.reduce([String:String]()) { partialResult, string in
+            var partialResult = partialResult
+            let parts = string.components(separatedBy: ":")
+            guard parts.count == 2 else { return partialResult }
+            let key = parts[0]
+            let value = parts[1]
+            partialResult[key] = value
+            return partialResult
+        }
+        
+        return styles?[attributeName]
+    }
+    
+    var strokeColor: Color? {
+        if let color = self.getStyleAttributeString(named: "stroke") {
+            return Color(svgString: color)
+        }
         return nil
     }
     
     var strokeOpacity: Double {
-        return Double(attributes["stroke-opacity"]?.asCGFloat ?? 1)
+        if let strokeOpacityString = getStyleAttributeString(named: "stroke-opacity") {
+            return Double(strokeOpacityString) ?? 1
+        }
+        return 1
     }
     
     var strokeWidth: CGFloat {
-        return attributes["stroke-width"]?.asCGFloat ?? 1
-    }
-    
-    var fillColor: Color? {
-        //Travel up the parents looking for instructions
-        var element: SVGElement? = self
-        while element != nil {
-            //Return the first one that we find
-            if let color = element?.attributes["fill"] {
-                return Color(svgString: color)
+        if let width = self.getStyleAttributeString(named: "stroke-width") {
+            let scanner = Scanner(string: width)
+            if let width = scanner.scanDouble() {
+                return width
             }
-            
-            if let style = element?.attributes["style"] {
-                let styles = style.components(separatedBy: ";").map({ $0.components(separatedBy: ":") })
-                if let fill = styles.filter( { $0[0] == "fill" } ).first?.last {
-                    return Color(svgString: fill)
-                }
-            }
-            
-            element = element?.parent
         }
+        return 0
+    }
         
-        if self.children.isEmpty { return Color.black }
-        return nil
+    var fillColor: Color? {
+        if let color = self.getStyleAttributeString(named: "fill") {
+            return Color(svgString: color)
+        }
+        //Black seems to be the default color for SVG Fill
+        if let id = self.id {
+            return fillOverrides[id] ?? .black
+        }
+        return .black
     }
     
     var fillOpacity: Double {
@@ -140,14 +150,15 @@ extension SVGElement {
         }
     }
 }
+
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
-        SVGImageView(image: .svg(named: "Heart"))
+        SVGImageView(image: .svg(named: "Spade"))
     }
 }
 
 extension View {
-    func alphaMask<Mask>(_ view: Mask?) -> some View where Mask : View {
+    func alphaMask<Mask: View>(_ view: Mask?) -> some View {
         self.mask(
             view?
                 .compositingGroup()

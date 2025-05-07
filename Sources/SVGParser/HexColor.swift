@@ -14,9 +14,8 @@ fileprivate let logger = Logger(subsystem: "com.mmuszynski.SVGParser", category:
 
 extension Color {
     public init?(svgString string: String) {
-        if let color = Color.hexString(string) {
-            //three digit hex
-            //six digit hex
+        if let color = Color.cssKeyword(string) {
+            //color keyword
             self = color
             return
         } else if let color = Color.integerFunctionalString(string) {
@@ -27,8 +26,9 @@ extension Color {
             //float functional
             self = color
             return
-        } else if let color = Color.cssKeyword(string) {
-            //color keyword
+        } else if let color = Color.hexString(string) {
+            //three digit hex
+            //six digit hex
             self = color
             return
         }

@@ -9,4 +9,5 @@ import SwiftUI
 
 #Preview {
     SVGImageView(image: .svg(named: "HighCKey"))
+        .setFillOverride(.blue, forElementID: "High-C-Key")
 }
