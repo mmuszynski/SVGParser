@@ -81,18 +81,13 @@ extension SVGElement {
     }
         
     var fillColor: Color? {
-        //If there has been a color override set, by all means, do that.
-        if let id = self.id, let color = fillOverrides[id] {
-            return color
-        }
-        
-        //Fall back on the color set by the attributes of the element
+        //Use the color set by the attributes of the element
         if let color = self.getStyleAttributeString(named: "fill") {
             return Color(svgString: color)
         }
         
         //Otherwise, return the base color.
-        return fillOverrides[""]
+        return .black
     }
     
     var fillOpacity: Double {
@@ -103,7 +98,14 @@ extension SVGElement {
         return Double(attributes["opacity"]?.asCGFloat ?? 1)
     }
     
-    @MainActor func rendered() -> some View {
+    @MainActor func rendered(_ fillOverrides: [String:Color] = [:]) -> some View {
+        func getFillColor() -> Color? {
+            if let id = self.id, let color = fillOverrides[id] {
+                return color
+            }
+            return self.fillColor
+        }
+        
         if self.mask == nil {
             return AnyView(
                 ZStack {
@@ -113,7 +115,7 @@ extension SVGElement {
                             .opacity(self.strokeOpacity)
                     }
                     
-                    if let color = self.fillColor {
+                    if let color = getFillColor() {
                         SVGShape(element: self)
                             .fill(color)
                             .opacity(self.fillOpacity)
@@ -121,7 +123,7 @@ extension SVGElement {
                     
                     ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
-                        AnyView(child.rendered())
+                        AnyView(child.rendered(fillOverrides))
                     }
                 }
                 .compositingGroup()
@@ -144,12 +146,12 @@ extension SVGElement {
                     
                     ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
-                        AnyView(child.rendered())
+                        AnyView(child.rendered(fillOverrides))
                     }
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .alphaMask(self.mask?.rendered())
+                .alphaMask(self.mask?.rendered(fillOverrides))
             )
         }
     }

@@ -177,9 +177,6 @@ class SVGElement {
         }
         return element!
     }
-    
-    /// An environment variable that allows individual elements to be filled with different colors, provided they have an available identifier.
-    @Environment(\.fillOverrides) var fillOverrides
 
 }
 

@@ -10,6 +10,9 @@ import SwiftUI
 public struct SVGImageView: View {
     var image: SVGImage
     
+    /// An environment variable that allows individual elements to be filled with different colors, provided they have an available identifier.
+    @Environment(\.fillOverrides) var fillOverrides
+    
     public init(image: SVGImage) {
         self.image = image
     }
