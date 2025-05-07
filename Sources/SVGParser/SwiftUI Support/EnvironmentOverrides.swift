@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var fillOverrides: [String: Color] = [:]
+    @Entry var fillOverrides: [String: Color] = ["" : .black]
 }
 
 extension View {

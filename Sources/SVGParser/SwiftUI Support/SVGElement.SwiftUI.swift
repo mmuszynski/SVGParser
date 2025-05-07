@@ -81,14 +81,18 @@ extension SVGElement {
     }
         
     var fillColor: Color? {
+        //If there has been a color override set, by all means, do that.
+        if let id = self.id, let color = fillOverrides[id] {
+            return color
+        }
+        
+        //Fall back on the color set by the attributes of the element
         if let color = self.getStyleAttributeString(named: "fill") {
             return Color(svgString: color)
         }
-        //Black seems to be the default color for SVG Fill
-        if let id = self.id {
-            return fillOverrides[id] ?? .black
-        }
-        return .black
+        
+        //Otherwise, return the base color.
+        return fillOverrides[""]
     }
     
     var fillOpacity: Double {
