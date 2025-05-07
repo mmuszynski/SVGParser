@@ -12,7 +12,7 @@ extension EnvironmentValues {
 }
 
 extension View {
-    func setFillOverride(_ fillColor: Color?, forElementID element: String) -> some View {
+    public func setFillOverride(_ fillColor: Color?, forElementID element: String) -> some View {
         transformEnvironment(\.fillOverrides) { overrides in
             overrides[element] = fillColor
         }
