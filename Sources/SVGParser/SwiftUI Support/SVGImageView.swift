@@ -21,7 +21,7 @@ public struct SVGImageView: View {
         image
             .content
             .svg
-            .rendered()
+            .rendered(fillOverrides)
     }
 }
 
