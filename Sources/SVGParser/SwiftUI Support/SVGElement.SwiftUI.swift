@@ -140,7 +140,7 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .onTapGesture(count: getTapGestureOverride()?.count ?? 0) {
+                .onTapGesture(count: getTapGestureOverride()?.count ?? 1) {
                     getTapGestureOverride()?.action()
                 }
             )
@@ -167,7 +167,7 @@ extension SVGElement {
                 .compositingGroup()
                 .opacity(self.opacity)
                 .alphaMask(self.mask?.rendered(fillOverrides, tapGestureOverrides))
-                .onTapGesture(count: getTapGestureOverride()?.count ?? 0) {
+                .onTapGesture(count: getTapGestureOverride()?.count ?? 1) {
                     getTapGestureOverride()?.action()
                 }
             )
