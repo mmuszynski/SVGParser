@@ -98,12 +98,22 @@ extension SVGElement {
         return Double(attributes["opacity"]?.asCGFloat ?? 1)
     }
     
-    @MainActor func rendered(_ fillOverrides: [String:Color] = [:]) -> some View {
+    @MainActor func rendered(_ fillOverrides: [String: Color] = [:],
+                             _ tapGestureOverrides: [String: TapGestureOverride] = [:]) -> some View {
+        
+        //Get the fill color for the element
         func getFillColor() -> Color? {
             if let id = self.id, let color = fillOverrides[id] {
                 return color
             }
             return self.fillColor
+        }
+        
+        func getTapGestureOverride() -> TapGestureOverride? {
+            if let id = self.id {
+                return tapGestureOverrides[id]
+            }
+            return nil
         }
         
         if self.mask == nil {
@@ -123,12 +133,15 @@ extension SVGElement {
                     
                     ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
-                        AnyView(child.rendered(fillOverrides))
+                        AnyView(child.rendered(fillOverrides, tapGestureOverrides))
                     }
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
             )
+            .onTapGesture {
+                getTapGestureOverride()?.action()
+            }
         } else {
             return AnyView(
                 ZStack {
@@ -146,13 +159,16 @@ extension SVGElement {
                     
                     ForEach(0..<drawableChildren.count, id: \.self) { i in
                         let child = self.drawableChildren[i]
-                        AnyView(child.rendered(fillOverrides))
+                        AnyView(child.rendered(fillOverrides, tapGestureOverrides))
                     }
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .alphaMask(self.mask?.rendered(fillOverrides))
+                .alphaMask(self.mask?.rendered(fillOverrides, tapGestureOverrides))
             )
+            .onTapGesture {
+                getTapGestureOverride()?.action()
+            }
         }
     }
 }
