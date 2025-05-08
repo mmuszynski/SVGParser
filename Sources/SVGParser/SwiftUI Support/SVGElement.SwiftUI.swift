@@ -116,17 +116,19 @@ extension SVGElement {
             return nil
         }
         
+        let shape = SVGShape(element: self)
+        
         if self.mask == nil {
             return AnyView(
                 ZStack {
                     if let color = self.strokeColor {
-                        SVGShape(element: self)
+                        shape
                             .stroke(color, lineWidth: strokeWidth)
                             .opacity(self.strokeOpacity)
                     }
                     
                     if let color = getFillColor() {
-                        SVGShape(element: self)
+                        shape
                             .fill(color)
                             .opacity(self.fillOpacity)
                     }
@@ -138,7 +140,7 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .onTapGesture {
+                .onTapGesture(count: getTapGestureOverride()?.count ?? 0) {
                     getTapGestureOverride()?.action()
                 }
             )
@@ -146,13 +148,13 @@ extension SVGElement {
             return AnyView(
                 ZStack {
                     if let color = self.strokeColor {
-                        SVGShape(element: self)
+                        shape
                             .stroke(color, lineWidth: strokeWidth)
                             .opacity(self.strokeOpacity)
                     }
                     
                     if let color = self.fillColor {
-                        SVGShape(element: self)
+                        shape
                             .fill(color)
                             .opacity(self.fillOpacity)
                     }
@@ -165,7 +167,7 @@ extension SVGElement {
                 .compositingGroup()
                 .opacity(self.opacity)
                 .alphaMask(self.mask?.rendered(fillOverrides, tapGestureOverrides))
-                .onTapGesture {
+                .onTapGesture(count: getTapGestureOverride()?.count ?? 0) {
                     getTapGestureOverride()?.action()
                 }
             )
