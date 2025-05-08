@@ -140,7 +140,6 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .contentShape(Rectangle())
                 .onTapGesture(count: getTapGestureOverride()?.count ?? 1) {
                     getTapGestureOverride()?.action()
                 }
