@@ -138,11 +138,11 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
+                .contentShape(SVGShape(element: self))
+                .onTapGesture {
+                    getTapGestureOverride()?.action()
+                }
             )
-            .contentShape(SVGShape(element: self))
-            .onTapGesture {
-                getTapGestureOverride()?.action()
-            }
         } else {
             return AnyView(
                 ZStack {
@@ -166,11 +166,11 @@ extension SVGElement {
                 .compositingGroup()
                 .opacity(self.opacity)
                 .alphaMask(self.mask?.rendered(fillOverrides, tapGestureOverrides))
+                .contentShape(SVGShape(element: self))
+                .onTapGesture {
+                    getTapGestureOverride()?.action()
+                }
             )
-            .contentShape(SVGShape(element: self))
-            .onTapGesture {
-                getTapGestureOverride()?.action()
-            }
         }
     }
 }
