@@ -110,8 +110,8 @@ extension SVGElement {
         }
         
         func getTapGestureOverride() -> TapGestureOverride? {
-            if let id = self.id {
-                return tapGestureOverrides[id]
+            if let id = self.id, let gesture = tapGestureOverrides[id] {
+                return gesture
             }
             return nil
         }
