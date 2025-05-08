@@ -138,7 +138,6 @@ extension SVGElement {
                 }
                 .compositingGroup()
                 .opacity(self.opacity)
-                .contentShape(SVGShape(element: self))
                 .onTapGesture {
                     getTapGestureOverride()?.action()
                 }
@@ -166,7 +165,6 @@ extension SVGElement {
                 .compositingGroup()
                 .opacity(self.opacity)
                 .alphaMask(self.mask?.rendered(fillOverrides, tapGestureOverrides))
-                .contentShape(SVGShape(element: self))
                 .onTapGesture {
                     getTapGestureOverride()?.action()
                 }
