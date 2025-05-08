@@ -12,7 +12,8 @@ public struct SVGImageView: View {
     
     /// An environment variable that allows individual elements to be filled with different colors, provided they have an available identifier.
     @Environment(\.fillOverrides) var fillOverrides
-    
+    @Environment(\.onTapOverrides) var tapOverrides
+
     public init(image: SVGImage) {
         self.image = image
     }
@@ -21,7 +22,7 @@ public struct SVGImageView: View {
         image
             .content
             .svg
-            .rendered(fillOverrides)
+            .rendered(fillOverrides, tapOverrides)
     }
 }
 
