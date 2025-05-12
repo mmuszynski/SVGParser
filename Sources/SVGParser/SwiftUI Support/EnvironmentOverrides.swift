@@ -32,7 +32,7 @@ extension View {
         }
     }
     
-    public func override(elementFillColors: [String:Color]) -> some View {
+    public func override(elementFillColors: [String: Color?]) -> some View {
         transformEnvironment(\.fillOverrides) { overrides in
             for (element, fillColor) in elementFillColors {
                 overrides[element] = fillColor
