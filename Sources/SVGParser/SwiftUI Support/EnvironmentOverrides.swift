@@ -19,7 +19,14 @@ extension EnvironmentValues {
 }
 
 extension View {
+    @available(*, unavailable, renamed: "override(fillColor:forElementID:)")
     public func setFillOverride(_ fillColor: Color?, forElementID element: String) -> some View {
+        transformEnvironment(\.fillOverrides) { overrides in
+            overrides[element] = fillColor
+        }
+    }
+    
+    public func override(fillColor: Color?, forElementID element: String) -> some View {
         transformEnvironment(\.fillOverrides) { overrides in
             overrides[element] = fillColor
         }
