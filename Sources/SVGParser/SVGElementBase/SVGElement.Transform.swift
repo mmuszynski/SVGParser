@@ -64,8 +64,10 @@ extension SVGElement.Transform: Equatable {
             if case let .translate(rhsX, rhsY) = rhs { return x == rhsX && y == rhsY }
         case .scale(let x, let y):
             if case let .scale(rhsX, rhsY) = rhs { return x == rhsX && y == rhsY }
+        case .rotate(let deg, let pt):
+            if case let .rotate(rhsDeg, rhsPt) = rhs { return deg == rhsDeg && pt == rhsPt }
         default:
-            fatalError()
+            fatalError("Unimplemented transform case: \(lhs) \(rhs)")
         //        case .scale(_):
         //        case .rotate(_, around: let around):
         //        case .skewX(_):

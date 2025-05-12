@@ -19,10 +19,7 @@ public struct SVGImageView: View {
     }
     
     public var body: some View {
-        image
-            .content
-            .svg
-            .rendered(fillOverrides, tapOverrides)
+        SVGElementView(element: image.content.svg)
     }
 }
 
@@ -46,8 +43,8 @@ struct SVGImagePreviews: PreviewProvider {
             SVGImageView(image: .svg(named: "Bruins"))
                 .previewLayout(.sizeThatFits)
             
-            SVGImageView(image: try! SVGImage(contentsOf: .teamLogo(id: 14)))
-                .previewLayout(.sizeThatFits)
+//            SVGImageView(image: try! SVGImage(contentsOf: .teamLogo(id: 14)))
+//                .previewLayout(.sizeThatFits)
             
             SVGImageView(image: .svg(named: "Club"))
                 .previewLayout(.sizeThatFits)
