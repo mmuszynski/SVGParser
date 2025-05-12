@@ -104,13 +104,3 @@ struct SVGElementView_Previews: PreviewProvider {
         SVGImageView(image: .svg(named: "Spade"))
     }
 }
-
-extension View {
-    func alphaMask<Mask: View>(_ view: Mask?) -> some View {
-        self.mask(
-            view?
-                .compositingGroup()
-                .luminanceToAlpha()
-        )
-    }
-}
