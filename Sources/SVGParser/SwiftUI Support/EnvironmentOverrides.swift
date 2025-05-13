@@ -12,7 +12,7 @@ public struct TapGestureOverride {
     var count: Int?
     var action: () -> Void
     
-    init(elementID: String, count: Int? = nil, action: @escaping () -> Void) {
+    public init(elementID: String, count: Int? = nil, action: @escaping () -> Void) {
         self.elementID = elementID
         self.count = count
         self.action = action
