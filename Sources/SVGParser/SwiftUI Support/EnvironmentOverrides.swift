@@ -7,7 +7,17 @@
 
 import SwiftUI
 
-typealias TapGestureOverride = (count: Int, action: () -> Void)
+public struct TapGestureOverride {
+    var elementID: String
+    var count: Int?
+    var action: () -> Void
+    
+    init(elementID: String, count: Int? = nil, action: @escaping () -> Void) {
+        self.elementID = elementID
+        self.count = count
+        self.action = action
+    }
+}
 
 extension EnvironmentValues {
     /// Allows the fill color of an element with a given name to be overridden.
@@ -42,7 +52,15 @@ extension View {
     
     public func onTapOfElement(named elementID: String, count: Int = 1, perform action: @escaping () -> Void) -> some View {
         transformEnvironment(\.onTapOverrides) { overrides in
-            overrides[elementID] = (count: count, action: action)
+            overrides[elementID] = TapGestureOverride(elementID: elementID, count: count, action: action)
+        }
+    }
+    
+    public func onTapOfElements(_ tapOverrides: [TapGestureOverride]) -> some View {
+        transformEnvironment(\.onTapOverrides) { overrides in
+            for override in tapOverrides {
+                overrides[override.elementID] = TapGestureOverride(elementID: override.elementID, count: override.count, action: override.action)
+            }
         }
     }
 }
