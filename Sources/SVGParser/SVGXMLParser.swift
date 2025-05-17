@@ -60,6 +60,15 @@ final class SVGXMLParser: XMLParser, XMLParserDelegate {
             }
             
             newPath.updateAttributes(with: attributeDict)
+        case "ellipse":
+            let newPath = SVGEllipse()
+            if let currentGroup = currentElement as? SVGGroup {
+                newPath.parent = currentGroup
+                currentGroup.append(newPath)
+                currentElement = newPath
+            }
+            
+            newPath.updateAttributes(with: attributeDict)
         case "rect":
             let rect = SVGRectangle()
             if let currentGroup = currentElement as? SVGGroup {
