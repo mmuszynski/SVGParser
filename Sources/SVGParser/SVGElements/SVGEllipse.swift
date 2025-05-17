@@ -34,7 +34,7 @@ class SVGEllipse: SVGElement {
     }
     
     private var ellipseBox: CGRect {
-        CGRect(origin: radius.applying(CGAffineTransform(translationX: -radius.x, y: -radius.y)), size: CGSize(width: radius.x * 2, height: radius.y * 2))
+        CGRect(origin: center.applying(CGAffineTransform(translationX: -radius.x, y: -radius.y)), size: CGSize(width: radius.x * 2, height: radius.y * 2))
     }
     
     override var path: CGPath {
