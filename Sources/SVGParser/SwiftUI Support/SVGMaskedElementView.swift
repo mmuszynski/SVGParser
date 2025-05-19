@@ -37,12 +37,14 @@ struct SVGMaskedElementView: View {
                 shape
                     .stroke(color, lineWidth: element.strokeWidth)
                     .opacity(element.strokeOpacity)
+                    .zIndex(1)
             }
             
             if let color = element.fillColor {
                 shape
                     .fill(color)
                     .opacity(element.fillOpacity)
+                    .zIndex(0)
             }
             
             ForEach(0..<element.drawableChildren.count, id: \.self) { i in
