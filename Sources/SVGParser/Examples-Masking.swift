@@ -7,13 +7,7 @@
 
 import SwiftUI
 
-struct SVGExamplesMasking_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            SVGImageView(image: .svg(named: "Spade"))
-            SVGImageView(image: .svg(named: "maskedSquare"))
-            SVGImageView(image: .svg(named: "maskedSquareOffset"))
-            SVGImageView(image: .svg(named: "maskedSquareResized"))
-        }
-    }
+@available(iOS 13.0, macOS 14.0, tvOS 13.0, *)
+#Preview {
+    ExamplesSplitView(selections: ["Bassoon Keys Visual", "Spade", "maskedSquare", "maskedSquareOffset", "maskedSquareResized"], key: "masking")
 }

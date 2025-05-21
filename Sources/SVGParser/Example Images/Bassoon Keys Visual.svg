@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 717 1009" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:1.5;">
+    <g id="Left-Thumb" serif:id="Left Thumb">
+        <path id="Low-B-Flat-Key" serif:id="Low B Flat Key" d="M100.844,3.756c-0,-0 -1.08,30.811 -1.08,75.335c0,18.273 27.869,37.367 27.613,66.546c-0.214,24.55 2.053,46.844 20.451,46.612c15.09,-0.192 16.685,-12.889 15.427,-32.077c-1.564,-23.877 -10.378,-46.867 -22.555,-63.762c-12.177,-16.898 -23.026,-27.034 -23.026,-48.015c-0,-32.71 0.541,-44.639 0.541,-44.639l-17.371,-0Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="Low-B-Key" serif:id="Low B Key" d="M59.599,3.756c-0,70.515 -0.735,48.819 -0.102,86.814c0.279,16.792 22.04,25.084 22.263,49.018c0.229,24.55 6.809,57.178 24.681,52.71c12.368,-3.093 16.685,-12.889 15.428,-32.078c-1.565,-23.877 -8.548,-35.294 -20.725,-52.19c-12.177,-16.896 -23.668,-25.061 -23.361,-59.635c0.307,-34.573 0.248,-44.639 0.248,-44.639l-18.432,-0Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="Low-C-Key" serif:id="Low C Key" d="M51.383,99.568c0,-0 -48.868,-0.404 -47.603,45.951c1.267,46.354 60.473,45.118 70.985,41.306c3.56,-1.291 7.271,-21.886 -6.009,-57.683c-9.421,-25.39 -17.373,-29.574 -17.373,-29.574Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="Low-D-Key" serif:id="Low D Key" d="M93.001,450.152c0,0 0.41,-71.637 -6.635,-87.735c-7.81,-17.846 -13.173,-17.275 -14.315,-42.996c-1.139,-25.721 0.186,-89.986 0.186,-89.986c-0,-0 1.299,-36.627 -24.699,-36.961c-32.548,-0.419 -28.48,32.569 -24.231,53.553c4.25,20.984 19.356,83.303 23.534,90.469c8.2,14.068 23.74,35.308 27.285,44.797c3.544,9.488 4.205,68.859 4.205,68.859l14.67,0Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="High-C-Key" serif:id="High C Key" d="M270.943,86.617l18.148,0c-0,0 0.054,68.033 -0,90.847c-0.075,30.868 -22.016,52.61 -52.021,52.935c-12.585,0.136 -23.492,-13.769 -22.997,-28.461c1.022,-30.278 56.87,-32.177 56.87,-52.276l-0,-63.045Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="High-A-Key" serif:id="High A Key" d="M252.795,245.546c52.406,13.695 49.969,13.708 49.969,-98.078c-0,-9.846 -0.232,-39.84 -0.232,-39.84l20.081,-0.177l-0.015,68.517c-0,50.72 1.176,78.048 -23.742,102.844c-11.286,11.23 -30.437,16.943 -49.473,17.3c-15.458,0.289 -53.425,-7.793 -53.397,-24.682c0.044,-26.296 28.977,-33.157 56.809,-25.884Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="High-D-Key" serif:id="High D Key" d="M252.795,44.951l-18.148,-0c0,-0 0.106,39.275 0,48.736c-0.065,5.893 -1.116,13.57 -14.556,22.895c-13.439,9.325 -29.189,12.48 -28.452,27.468c0.737,14.987 10.877,25.736 22.454,26.196c11.577,0.46 38.702,-16.724 38.702,-35.187l0,-90.108Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="C-Sharp-Key" serif:id="C Sharp Key" d="M270.943,450.152l18.148,0l-0,-81.258c-0,-20.547 -2.985,-42.464 -28.082,-55.489c-32.987,-17.116 -51.481,2.981 -53.294,6.291c-16.907,30.867 21.851,39.441 41.088,43.846c17.178,3.934 22.08,13.252 22.14,20.802c0.245,30.845 -0,65.808 -0,65.808Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+        <path id="Whisper-Key" serif:id="Whisper Key" d="M211.86,372.84c17.231,-0.006 30.891,12.45 30.871,26.273c-0.013,9.183 -15.693,22.329 -39.146,19.871c-9.294,-0.971 -32.081,-8.735 -30.887,-25.406c0.547,-7.629 1.273,-20.723 39.162,-20.738Z" style="fill:none;stroke:#000;stroke-width:4.17px;"/>
+    </g>
+    <g id="Back-Side" serif:id="Back Side">
+        <g id="Right-Hand-Back" serif:id="Right Hand Back">
+            <path id="Front-F-Sharp-Key" serif:id="Front F Sharp Key" d="M478.865,925.912l16.461,-73.223c-0,-0 55.142,26.19 75.771,45.304c20.629,19.114 -15.309,57.153 -15.309,57.153l-76.923,-29.234Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="A-Flat-Key" serif:id="A Flat Key" d="M393.771,986.698c-22.38,-20.885 -0.38,-80.373 -0.38,-80.373l121.477,42.861l3.403,48.682c-0,-0 -84.35,26.295 -124.5,-11.17Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="F-Key" serif:id="F Key" d="M420.137,829.47l65.326,21.333l-14.59,71.276l-74.518,-25.936l23.782,-66.673Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="G-Key" serif:id="G Key" d="M594.353,767.844c0,-0 -26.939,-0.302 -52.393,-7.36c-25.454,-7.059 -57.162,-23.323 -81.359,-21.859c-24.196,1.464 -37.467,19.329 -37.193,31.735c0.274,12.406 15.271,32.559 50.101,34.494c34.83,1.935 46.108,-7.23 79.513,-10.632c33.404,-3.401 41.331,-5.984 41.331,-5.984l0,-20.394Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <ellipse id="A-Tone-Hole" serif:id="A Tone Hole" cx="534.049" cy="686.217" rx="41.114" ry="41.986" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <ellipse id="B-Tone-Hole" serif:id="B Tone Hole" cx="534.049" cy="575.852" rx="41.114" ry="41.986" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+        </g>
+        <g id="Left-Hand-Back" serif:id="Left Hand Back">
+            <path id="Low-E-Flat-Key" serif:id="Low E Flat Key" d="M606.162,374.618c-0,-0 -10.036,-27.835 15.216,-52.992c25.253,-25.156 93.091,-11.89 93.091,-11.89l-16.913,38.093l-83.83,50.564l-7.564,-23.775Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="Low-C-Sharp-Key" serif:id="Low C Sharp Key" d="M619.986,409.016l77.188,-46.964l10.54,23.97l-21.09,50.569c0,-0 -17.781,22.953 -35.792,21.096c-18.011,-1.857 -30.846,-48.671 -30.846,-48.671Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="Offset-High-E-Flat-Key" serif:id="Offset High E Flat Key" d="M471.919,314.329c-0,0 64.634,-3.509 79.863,-7.641c15.229,-4.133 27.838,-16.118 33.854,0.113c6.017,16.231 -24.332,25.655 -41.733,24.961c-17.401,-0.695 -35.174,-8.704 -45.032,-8.42c-9.857,0.284 -34.372,5.06 -34.372,-3.345c-0,-8.405 7.42,-5.668 7.42,-5.668Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="Offset-High-E-Key" serif:id="Offset High E Key" d="M473.572,191.383c0,-0 64.634,-3.509 79.863,-7.641c15.229,-4.133 27.838,-16.118 33.855,0.113c6.016,16.231 -24.333,25.655 -41.734,24.961c-17.4,-0.695 -35.174,-8.705 -45.031,-8.42c-9.858,0.283 -34.373,5.06 -34.373,-3.345c-0,-8.406 7.42,-5.668 7.42,-5.668Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="High-E-Flat-Key" serif:id="High E Flat Key" d="M473.572,191.383c0,-0 64.634,-3.509 79.863,-7.641c15.229,-4.133 27.838,-16.118 33.855,0.113c6.016,16.231 -24.333,25.655 -41.734,24.961c-17.4,-0.695 -35.174,-8.705 -45.031,-8.42c-9.858,0.283 -34.373,5.06 -34.373,-3.345c-0,-8.406 7.42,-5.668 7.42,-5.668Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <path id="High-E-Key" serif:id="High E Key" d="M472.08,70.387c0,0 64.634,-3.509 79.863,-7.641c15.23,-4.132 27.839,-16.117 33.855,0.114c6.016,16.23 -24.333,25.654 -41.734,24.96c-17.4,-0.694 -35.174,-8.704 -45.031,-8.004c-9.858,0.284 -34.373,5.061 -34.373,-3.345c0,-8.405 7.42,-5.668 7.42,-5.668l0,-0.416Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <clipPath id="_clip1">
+                <rect id="F-Tone-Half-Hole" serif:id="F Tone Half Hole" x="497.208" y="133.284" width="83.333" height="43.75"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <ellipse cx="538.875" cy="134.243" rx="41.735" ry="42.619" style="fill:none;"/>
+            </g>
+            <ellipse id="F-Tone-Hole" serif:id="F Tone Hole" cx="538.875" cy="134.243" rx="41.735" ry="42.619" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <clipPath id="_clip2">
+                <rect id="E-Tone-Half-Hole" serif:id="E Tone Half Hole" x="497.208" y="257.268" width="83.333" height="43.75"/>
+            </clipPath>
+            <g clip-path="url(#_clip2)">
+                <ellipse cx="538.875" cy="258.227" rx="41.735" ry="42.619" style="fill:none;"/>
+            </g>
+            <ellipse id="E-Tone-Hole" serif:id="E Tone Hole" cx="538.875" cy="258.227" rx="41.735" ry="42.619" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+            <clipPath id="_clip3">
+                <rect id="D-Tone-Half-Hole" serif:id="D Tone Half Hole" x="497.208" y="381.25" width="83.333" height="43.75"/>
+            </clipPath>
+            <g clip-path="url(#_clip3)">
+                <ellipse cx="538.875" cy="382.209" rx="41.735" ry="42.619" style="fill:none;"/>
+            </g>
+            <ellipse id="D-Tone-Hole" serif:id="D Tone Hole" cx="538.875" cy="382.209" rx="41.735" ry="42.619" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+        </g>
+    </g>
+    <g id="Right-Hand-Thumb" serif:id="Right Hand Thumb">
+        <path id="Low-E-Key" serif:id="Low E Key" d="M165.34,657.252c0,-18.177 16.536,-53.389 52.281,-53.389c35.746,0 47.273,19.157 47.668,35.515c0.284,11.782 22.493,9.726 22.493,9.726l-0.313,17.175c0,-0 -21.585,-0.582 -23.147,11.489c-1.439,11.126 -17.824,31.284 -45.738,31.284c-14.567,0 -53.244,-5.789 -53.244,-51.8Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+        <path id="B-Flat-Key" serif:id="B Flat Key" d="M159.522,536.834c61.802,-27.065 96.453,-10.154 95.993,12.752c-0.46,22.906 -27.258,34.715 -75.437,34.552c-49.172,-0.166 -44.493,55.41 -44.493,55.41l-18.635,0.915c-0,-0 -2.933,-83.7 42.572,-103.629Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+        <path id="Thumb-F-Sharp-Key" serif:id="Thumb F Sharp Key" d="M189.132,736.835c61.802,-27.065 95.593,-4.085 95.133,18.821c-0.46,22.906 -18.069,35.416 -66.248,35.253c-49.173,-0.166 -37.954,50.315 -37.954,50.315l-24.614,0.65c-0,0 -11.822,-85.11 33.683,-105.039Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+        <path id="A-Flat-Alternate-Key" serif:id="A Flat Alternate Key" d="M232.15,808.126c48.256,-22.334 86.381,-8.807 85.921,14.099c-0.46,22.907 -6.119,35.527 -54.298,35.364c-49.173,-0.166 -40.512,52.12 -40.512,52.12l-24.025,1.724c-0,0 -12.184,-82.436 32.914,-103.307Z" style="fill:none;stroke:#000;stroke-width:4.17px;stroke-linejoin:round;"/>
+    </g>
+</svg>
