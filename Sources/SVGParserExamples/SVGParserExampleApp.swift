@@ -68,8 +68,8 @@ struct MainView: View {
     let exampleGrabber = try! ExampleGrabber()
     @AppStorage("com.mmuszynski.SVGParserExamples.selectionKey") var selection: String = ""
     var image: SVGImage? {
-        guard let url = exampleGrabber.categories.values.reduce(+).first { $0.path.contains(selection) }
-        try? .svg(named: url)
+        let url = exampleGrabber.categories.values.reduce([], +).first { $0.path.contains(selection) }
+        return try? SVGImage.svg(named: url!.path)
     }
 
     var body: some View {
