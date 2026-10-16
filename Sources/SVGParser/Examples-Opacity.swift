@@ -8,13 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct SVGExamplesOpacity_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SVGImageView(image: .svg(named: "w3opacityExample"))
-            SVGImageView(image: .svg(named: "squareTransparent50"))
-            SVGImageView(image: .svg(named: "squareTransparent50pct"))
-            SVGImageView(image: .svg(named: "opacityOverlap"))
-        }
-    }
+@available(macOS 14.0, *)
+#Preview {
+    @Previewable
+    @AppStorage("com.mmuszynski.svgParser.transparencyExamples.selection")
+    var selection: String = ""
+    
+        
+    ExamplesSplitView(filenames: ["w3opacityExample", "squareTransparent50", "squareTransparent50pct", "opacityOverlap"],
+                      selection: $selection)
+    
 }

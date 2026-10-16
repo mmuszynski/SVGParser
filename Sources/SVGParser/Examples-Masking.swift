@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-@available(iOS 13.0, macOS 14.0, tvOS 13.0, *)
+@available(macOS 14.0, *)
 #Preview {
-    ExamplesSplitView(selections: ["Bassoon Keys Visual", "Spade", "maskedSquare", "maskedSquareOffset", "maskedSquareResized"], key: "masking")
+    @Previewable
+    @AppStorage("com.mmuszynski.svgParser.maskingExamples.selection")
+    var selection: String = ""
+    
+    ExamplesSplitView(filenames: ["HalfCircleMask", "Spade", "maskedSquare", "maskedSquareOffset", "maskedSquareResized"], selection: $selection)
 }

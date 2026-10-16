@@ -7,13 +7,11 @@
 
 import SwiftUI
 
-struct SVGExamples_Suits_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            SVGImageView(image: .svg(named: "Spade"))
-            SVGImageView(image: .svg(named: "Club"))
-            SVGImageView(image: .svg(named: "Heart"))
-            SVGImageView(image: .svg(named: "Diamond"))
-        }
-    }
+@available(macOS 14.0, *)
+#Preview {
+    @Previewable
+    @AppStorage("com.mmuszynski.svgParser.suits.selection")
+    
+    var selection: String = ""
+    ExamplesSplitView(filenames: ["Spade", "Club", "Heart", "Diamond"], selection: $selection)
 }

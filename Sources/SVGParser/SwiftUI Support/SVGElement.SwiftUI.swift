@@ -101,6 +101,6 @@ extension SVGElement {
 
 struct SVGElementView_Previews: PreviewProvider {
     static var previews: some View {
-        SVGImageView(image: .svg(named: "Spade"))
+        SVGImageView(image: try! .svg(named: "Spade"))
     }
 }

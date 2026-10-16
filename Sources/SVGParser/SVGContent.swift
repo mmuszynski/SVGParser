@@ -11,6 +11,10 @@ import Foundation
 ///
 /// In order to render SVG data, the XML must first be parsed. After this, it is up to the renderer to actually draw the information on screen. Initially, this library was written with SwiftUI in mind, so the rendering has all taken place in SwiftUI Views. This intermediate step is an attempt to provide public information to a rendering implementation so that the SwiftUI portion of the library can be moved to a submodule (and so there can be a Cocoa/UIKit implementation).
 class SVGContent {
+    enum ContentError: Error {
+        case resourceNotFound
+        case unableToParseCSV(_ message: String)
+    }
     
     /// A parser to decode the SVG XML.
     private var parser: SVGXMLParser
@@ -33,7 +37,7 @@ class SVGContent {
     
     public convenience init(forResource name: String, withExtenstion ext: String) throws {
         guard let url = Bundle.module.url(forResource: name, withExtension: ext) else {
-            fatalError()
+            throw ContentError.resourceNotFound
         }
         try self.init(contentsOf: url)
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 #Preview {
-    SVGImageView(image: .svg(named: "HighCKey"))
+    try! SVGImageView(image: .svg(named: "HighCKey"))
         .override(fillColor: .green, forElementID: "High-C-Key")
-    SVGImageView(image: SVGImage.svg(named: "Wing Keys"))
+    try! SVGImageView(image: SVGImage.svg(named: "Wing Keys"))
 }

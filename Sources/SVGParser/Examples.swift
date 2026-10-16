@@ -9,36 +9,39 @@ import SwiftUI
 
 @freestanding(declaration) macro SVGPreviewExpansion(_ name: String? = nil, _ filenames: [String]) = #externalMacro(module: "ExampleExpansionMacros", type: "SVGPreviewExpansion")
 
-struct ExamplesSplitView: View {
-    @State var selection: String = "" {
-        didSet {
-            UserDefaults.standard.set(selection, forKey: self.userDefaultsKey)
-        }
-    }
-    let selections: [String]
-    let userDefaultsKey: String
+public struct ExamplesSplitView: View {
+    let filenames: [String]
+    @Binding var selection: String
     
-    init(selections: [String], key: String = "selection") {
-        self.selections = selections
-        self.userDefaultsKey = "com.mmuszynski.swiftui-svg-preview.\(key)"
-        self.selection = selections.first ?? ""
+    var image: SVGImage? {
+        try? .svg(named: selection)
     }
     
-    var body: some View {
+    public init(filenames: [String], selection: Binding<String>) {
+        self.filenames = filenames
+        self._selection = selection
+    }
+    
+    public var body: some View {
         NavigationSplitView {
-            List(selections, id: \.self, selection: $selection) { filename in
+            List(filenames, id: \.self, selection: $selection) { filename in
                 Text(filename)
             }
         } detail: {
-            SVGImageView(image: .svg(named: selection))
-                .padding()
-        }
-        .onAppear {
-            self.selection = UserDefaults.standard.string(forKey: userDefaultsKey) ?? selections.first ?? ""
+            if let image {
+                SVGImageView(image: image)
+            } else {
+                Text("No selection")
+            }
         }
     }
 }
 
+@available(macOS 14.0, *)
 #Preview {
-    ExamplesSplitView(selections: ["android", "beacon", "couch", "square50", "babybottle"], key: "examples")
+    @Previewable 
+    @AppStorage("com.mmuszynski.previews.svgExamples.selection")
+    var selection: String = ""
+    
+    ExamplesSplitView(filenames: ["android", "beacon", "couch", "square50", "babybottle"], selection: $selection)
 }

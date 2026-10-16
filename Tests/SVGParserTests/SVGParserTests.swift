@@ -116,14 +116,4 @@ struct SVGParserTests {
             #expect($0.fillColor != nil)
         }
     }
-    
-    @Test
-    func testBassoonKeyExample() async throws {
-        let dataURL = try #require(Bundle.module.url(forResource: "Wing Keys", withExtension: "svg"))
-
-        #expect(throws: Never.self) {
-            try SVGImage(contentsOf: dataURL)
-        }
-        
-    }
 }

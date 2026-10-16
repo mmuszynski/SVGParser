@@ -11,7 +11,7 @@ import SwiftUI
 struct SVGExamplesRotations_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SVGImageView(image: .svg(named: "rotatedSquare"))
+            SVGImageView(image: try! .svg(named: "rotatedSquare"))
         }
     }
 }

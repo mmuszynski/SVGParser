@@ -10,8 +10,8 @@ import SwiftUI
 struct SVGExampleMusic_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            SVGImageView(image: .svg(named: "opusClefC"))
-            SVGImageView(image: .svg(named: "opusFlat"))
+            SVGImageView(image: try! .svg(named: "opusClefC"))
+            SVGImageView(image: try! .svg(named: "opusFlat"))
         }
         .previewLayout(.sizeThatFits)
     }

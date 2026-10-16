@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct SVGExamplesCircles_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SVGImageView(image: .svg(named: "circle50"))
-            SVGImageView(image: .svg(named: "circle50x100"))
-            SVGImageView(image: .svg(named: "circle100"))
-            SVGImageView(image: .svg(named: "circle200"))
-            SVGImageView(image: .svg(named: "circle50-25-20"))
-        }
-    }
+@available(macOS 14.0, *)
+#Preview {
+    @Previewable
+    @AppStorage("com.mmuszynski.svgParser.circleExamples.selection")
+    var selection: String = ""
+    
+    ExamplesSplitView(filenames: ["circle50", "circle50x100", "circle100", "circle200", "circle50-25-20"], selection: $selection)
 }
+

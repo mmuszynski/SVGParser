@@ -12,6 +12,9 @@ let package = Package(
         .library(
             name: "SVGParser",
             targets: ["SVGParser"]),
+        .executable(
+            name: "SVGParserExamples",
+            targets: ["SVGParserExamples"])
     ],
     dependencies: [
         .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0-latest"),
@@ -36,5 +39,8 @@ let package = Package(
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
             ]
         ),
+        .executableTarget(name: "SVGParserExamples",
+                         dependencies: ["SVGParser"],
+                         resources: [.process("../SVGParser/Example Images")])
     ]
 )
